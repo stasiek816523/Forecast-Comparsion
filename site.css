@@ -121,6 +121,7 @@ label a{
 
 
 #icon1{
+    display: none;
     height: 1vh;
     width: auto;
     margin: 100px;

@@ -1,20 +1,19 @@
 document.getElementById("cityForm").addEventListener("submit", function(event) {
     event.preventDefault();
-    var city = document.getElementById("city").value;
-    document.getElementById("currentCity").textContent = getUserTime();
-
     var location = usersLocalization();
+    document.getElementById("currentCity").textContent = location[1];
     if( location != -1){
         var timeData = timezoneDB(location[0],location[1]);
         var forecast1 = visualCrossingAPI(location[0],location[1], timeData[0]);
+        document.getElementById("icon1").src = forecast1[9];
+        document.getElementById("icon1").display = 'block';
         document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +"C°";
         document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +"C°";
         document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +"mm "+forecast1[3];
         document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " " + forecast1[4];
         document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
-
     }else{
-
+        document.getElementById("temperature1").textContent = "kurwa:";
     }
 
 });

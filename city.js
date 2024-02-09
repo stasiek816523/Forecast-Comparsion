@@ -15,9 +15,8 @@ async function success(position) {
 }
 
 async function visualcrossing(latitude,longitude){
-    var timeZoneData = await timezoneDB(latitude,longitude);
-    var forecast1 = await visualCrossingAPIbyXY(latitude,longitude, timeZoneData[0]);
-    document.getElementById("currentCity").textContent = timeZoneData[1]+", "+timeZoneData[2];
+    var forecast1 = await visualCrossingAPIbyXY(latitude,longitude);
+    document.getElementById("currentCity").textContent = shortenResolvedAddress(forecast1[10]);
     document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
     document.getElementById("icon1").src = iconMatching(forecast1[9]);
     document.getElementById("icon1").display = 'block';
@@ -34,13 +33,13 @@ function error() {
 }
 
 function timezoneDB(latitude, longitude){
-    var base = "http://api.timezonedb.com/v2.1/get-time-zone?key=6Y48984OB897&format=json&by=position&lat=";
-    base+=latitude;
-    base+="&lng=";
-    base+=longitude;
+    var apiUrl = "http://api.timezonedb.com/v2.1/get-time-zone?key=6Y48984OB897&format=json&by=position&lat=";
+    apiUrl+=latitude;
+    apiUrl+="&lng=";
+    apiUrl+=longitude;
     var time = null, cityName =null, countryCode=null;
 
-    return fetch(base)
+    return fetch(apiUrl)
     .then(response => response.json())
         .then(data => {
             time = data.formatted;
@@ -54,21 +53,21 @@ function timezoneDB(latitude, longitude){
     });
 }
 
-function visualCrossingAPIbyXY(latitude, longitude, time){
+function visualCrossingAPIbyXY(latitude, longitude){
 
-    var base = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
-    base+=latitude + "%2C";
-    base+=longitude +"/";
-    base+="today?unitGroup=metric&elements=datetime%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=current%2Cfcst&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
+    var apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
+    apiUrl+=latitude + "%2C";
+    apiUrl+=longitude +"/";
+    apiUrl+="today?unitGroup=metric&elements=datetime%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=current%2Cfcst&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
 
-    return fetch(base, {
+    return fetch(apiUrl, {
         "method": "GET",
         "headers": {}
     })
     .then(response => response.json())
         .then(data => {
             var currentConditions = data.currentConditions;
-            return[currentConditions.temp, currentConditions.feelslike,currentConditions.precip,currentConditions.preciptype,currentConditions.windspeed,currentConditions.winddir,currentConditions.pressure,currentConditions.sunrise, currentConditions.sunset, currentConditions.icon];
+            return[currentConditions.temp, currentConditions.feelslike,currentConditions.precip,currentConditions.preciptype,currentConditions.windspeed,currentConditions.winddir,currentConditions.pressure,currentConditions.sunrise, currentConditions.sunset, currentConditions.icon, data.resolvedAddress];
         })
     .catch(err => {
         console.error(err);
@@ -129,18 +128,18 @@ function precipCorrection(precip){
 }
 function shortenResolvedAddress(resolvedAddress){
     const start = resolvedAddress.indexOf(",");
-    const end = resolvedAddress.indexOf(",", start + 1);
+    const end = resolvedAddress.lastIndexOf(",");
     if (start !== -1 && end !== -1) {
         resolvedAddress = resolvedAddress.substring(0, start) + resolvedAddress.substring(end);
     }   
     return resolvedAddress;
 }
 function openMeteoByXY(latitude, longitude){
-    let base = "https://api.open-meteo.com/v1/dwd-icon?latitude="
-    base += latitude + "&longitude=";
-    base+= longitude + "&current=temperature_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&forecast_days=1";
+    let apiUrl = "https://api.open-meteo.com/v1/dwd-icon?latitude="
+    apiUrl += latitude + "&longitude=";
+    apiUrl+= longitude + "&current=temperature_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&forecast_days=1";
 
-    return fetch(base, {
+    return fetch(apiUrl, {
         "method": "GET",
         "headers": {}
     })
@@ -258,12 +257,29 @@ document.getElementById("cityForm").addEventListener("submit", function(event) {
     .catch(function(error) {
         console.error("An error occurred while fetching data:", error);
     });
+
+
+    openMeteoByCity(city)
+    .then(function(forecast2) {
+        document.getElementById("tempTitle2").textContent = forecast2[0] +"°";
+        document.getElementById("icon2").src = iconMatchingOpenMeteo(forecast2[7], forecast2[6]);
+        document.getElementById("icon2").display = 'block';
+        document.getElementById("temperature2").textContent = "Temperature: " + forecast2[0] +" C°";
+        document.getElementById("feelslike2").textContent = "Feels like: " + forecast2[1] +" C°";
+        document.getElementById("precip2").textContent = "Precip: " + forecast2[2] +" mm "+openMeteoPrecip(forecast2[2],forecast2[8],forecast2[9],forecast2[10]);
+        document.getElementById("wind2").textContent = "Wind: " + forecast2[3] + " kph " + windDirectionCorrection(forecast2[4]);
+        document.getElementById("pressure2").textContent = " Pressure:  " + forecast2[5] +" hPa.";
+
+       })
+    .catch(function(error) {
+        console.error("An error occurred while fetching data:", error);
+    });
 });
 function visualCrossingAPIbyCity(city){
-    var base="https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
-    base+=city+"/today?unitGroup=metric&elements=resolvedAddress%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=fcst%2Ccurrent&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
+    var apiUrl="https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+    apiUrl+=city+"/today?unitGroup=metric&elements=resolvedAddress%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=fcst%2Ccurrent&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
 
-    return fetch(base, {
+    return fetch(apiUrl, {
         "method": "GET",
         "headers": {}
     })
@@ -275,4 +291,35 @@ function visualCrossingAPIbyCity(city){
     .catch(err => {
         console.error(err);
     });
+}
+function openMeteoByCity(city){
+    var data = openStreetMapNominatim(city);
+    var xy = data.then(response => {
+        const result = response[0];
+        const lat = result.lat;
+        const lon = result.lon;        
+        return [lat,lon];
+    }).catch(error => {
+        console.error('Error ', error);
+    });
+    return openMeteoByXY(xy[0],xy[1]);
+}
+
+function openStreetMapNominatim(city){
+    let apiUrl = "https://nominatim.openstreetmap.org/search?format=json&q=";
+    apiUrl += city + "&limit=1";
+
+    return fetch(apiUrl, {
+        "method": "GET",
+        "headers": {}
+    })
+    .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            return data;
+        })
+    .catch(err => {
+        console.error(err);
+    });
+
 }

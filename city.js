@@ -30,17 +30,22 @@ document.getElementById("cityForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
     var city = document.getElementById("city").value;
-    var forecast1 = visualCrossingAPIbyCity(city);
-    document.getElementById("currentCity").textContent = forecast1[10];
-    document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
-    document.getElementById("icon1").src = iconMatching(forecast1[9]);
-    document.getElementById("icon1").display = 'block';
-    document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +" C°";
-    document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +" C°";
-    document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+precipCorrection(forecast1[3]);
-    document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " kph " + windDirectionCorrection(forecast1[4]);
-    document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
 
+    visualCrossingAPIbyCity(city)
+    .then(function(forecast1) {
+        document.getElementById("currentCity").textContent = shortenResolvedAddress(forecast1[10]);
+        document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
+        document.getElementById("icon1").src = iconMatching(forecast1[9]);
+        document.getElementById("icon1").style.display = 'block';
+        document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +" C°";
+        document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +" C°";
+        document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+precipCorrection(forecast1[3]);
+        document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " kph " + windDirectionCorrection(forecast1[4]);
+        document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
+    })
+    .catch(function(error) {
+        console.error("An error occurred while fetching data:", error);
+    });
 });
 
 function timezoneDB(latitude, longitude){
@@ -96,7 +101,7 @@ function visualCrossingAPIbyCity(city){
     .then(response => response.json())
         .then(data => {
             var currentConditions = data.currentConditions;
-            return[currentConditions.temp, currentConditions.feelslike,currentConditions.precip,currentConditions.preciptype,currentConditions.windspeed,currentConditions.winddir,currentConditions.pressure,currentConditions.sunrise, currentConditions.sunset, currentConditions.icon, currentConditions.resolvedAddress];
+            return[currentConditions.temp, currentConditions.feelslike,currentConditions.precip,currentConditions.preciptype,currentConditions.windspeed,currentConditions.winddir,currentConditions.pressure,currentConditions.sunrise, currentConditions.sunset, currentConditions.icon, data.resolvedAddress];
         })
     .catch(err => {
         console.error(err);
@@ -154,82 +159,33 @@ function precipCorrection(precip){
         return precip;
     }
 }
-/*
-function extractTimezoneOffset(timezoneString) {
-    var parts = timezoneString.split(':');
-    var offsetHours = parseInt(parts[0]);
-    var offsetMinutes = parseInt(parts[1]);
-    var timezoneOffsetInMinutes =0;
-
-    if(offsetHours >= 0){
-        timezoneOffsetInMinutes = offsetHours * 60 + offsetMinutes;
-    }else{
-        timezoneOffsetInMinutes = offsetHours * 60 - offsetMinutes;
-    }
-    return timezoneOffsetInMinutes;
+function shortenResolvedAddress(resolvedAddress){
+    const start = resolvedAddress.indexOf(",");
+    const end = resolvedAddress.indexOf(",", start + 1);
+    if (start !== -1 && end !== -1) {
+        resolvedAddress = resolvedAddress.substring(0, start) + resolvedAddress.substring(end);
+    }   
+    return resolvedAddress;
 }
+function openMeteoByXY(latitude, longitude){
+    let base = "https://api.open-meteo.com/v1/dwd-icon?latitude="
+    base += latitude + "&longitude=";
+    base+= longitude + "&current=temperature_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&forecast_days=1";
 
+    return fetch(base)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response error');
+        }
+        return response.text();
+    })
+    .then(csvText => {
+        const data = parseCSV(csvText);
+        var currentConditions = data.current;
+        return[currentConditions.temperature_2m, currentConditions.apparent_temperature,currentConditions.precipitation,currentConditions.wind_speed_10m,currentConditions.wind_directon_10m,currentConditions.pressure_ms1, currentConditions.is_day, currentConditions.weather_code];
+})
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
 
-function getCurrentUTCTime() {
-    var now = new Date();
-    var utcString = now.toISOString().split('.')[0];
-    return utcString;
 }
-
-function getTimezone() {
-    var date = new Date();
-    var timezoneOffsetInMinutes = date.getTimezoneOffset();
-    var timezoneOffsetHours = Math.floor(Math.abs(timezoneOffsetInMinutes) / 60);
-    var timezoneOffsetMinutes = Math.abs(timezoneOffsetInMinutes) % 60;
-    var timezoneOffsetSign = (timezoneOffsetInMinutes >= 0) ? '-' : '+';
-    var timezone = timezoneOffsetSign + timezoneOffsetHours + ':' + timezoneOffsetMinutes;
-    return timezone;
-}
-
-
-
-function getUserTime(){
-    var utcTime = getCurrentUTCTime();
-    var timezoneOffsetInMinutes = extractTimezoneOffset(getTimezone());
-    var finalTime = utcCorrection(utcTime, timezoneOffsetInMinutes);
-    return finalTime;
-}
-function utcCorrection(utcTime, timezoneOffsetInMinutes){
-    var dateTimeString = utcTime;
-    var parts = dateTimeString.split('T');
-    var timeParts = parts[1].split(':');
-    var hours = parseInt(timeParts[0]);
-    var minutes = parseInt(timeParts[1]);
-    var totalMinutes = hours * 60 + minutes;
-
-    var date = new Date();
-
-    if(totalMinutes >= timezoneOffsetInMinutes){
-        totalMinutes += timezoneOffsetInMinutes;
-        minutesToTime(totalMinutes);
-    }else{
-        if(date.getDay() == 1 && date.getMonth() == 0){
-
-        }else if(date.getDate() == 31 && date.getMonth() == 11){
-
-        }else if(date.getDate() == 1){
-
-        }else if()
-    }
-}
-
-function minutesToTime(totalMinutes) {
-    var hours = Math.floor(totalMinutes / 60);
-    var minutes = totalMinutes % 60;
-    if(hours < 10){
-        hours = "0"+hours;
-    }
-    if(minutes < 10){
-        minutes = "0"+minutes;
-    }
-
-    return hours + ":" + minutes;
-}
-
-*/
-

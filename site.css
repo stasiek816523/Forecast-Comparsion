@@ -110,6 +110,7 @@ label a{
     width: 30vw;
     background-color: #ffcc4d ;
     color: black;
+    overflow: hidden;
 }
 .weatherData{
     padding: 10px;

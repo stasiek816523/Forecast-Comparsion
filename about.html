@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Forecast Comparsion</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="about.css">
+    <link rel="icon" href="1/favicon.ico">
+</head>
+
+
+<body>
+
+    <div class="bars">
+        <nav>
+            <a href="site.html"><img id="titleImg" src="1/favicon-32x32.png" alt="fav"></a>
+            <label class="logo"><a href="site.html">Forecast Comparsion</a></label>
+            <ul>
+                <li><a class="activeOnHover" href="site.html">Home</a></li>
+                <li><a class="activeOnHover" href="about.html">About</a></li>
+                <li><a class="activeOnHover" href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+<div id="aboutBody" class="nonBars">
+
+    This site is written in HTML5, CSS, and JS. It uses some weather forecasts APIs.
+    Forecasts are real-time. Backgrounds are being set based on weather data given by APIs.
+
+</div>
+
+
+<div class="bars" id="bottomBar">
+    <a id="bottomIcon" href="site.html"><img class="bottomImg" src="1/favicon-32x32.png" alt="fav"></a>
+    <label id="bottomTitle">Forecast Comparsion</label>
+    <ul>
+        <li><a class="activeOnHover" href="about.html">About</a></li>
+        <li><a class="activeOnHover" href="contact.html">Contact</a></li>
+        <li><a href="https://github.com" target="_blank"><img class="bottomImg" src="2/git.png" alt="github"></a></li>
+        <li><img id="mail" class="bottomImg" src="2/mail.png" alt="mail" onclick="copyText()"></li>
+    </ul>
+
+    <button id="scrollButton" type="button" onclick="scrollToTop()"> <img id="scrollImg" src="2/arrowup2.png" alt="Scroll up"></button>
+    <div id="copyMessage"></div>
+</div>
+
+
+
+<script src="site.js"></script>
+</body>
+
+
+
+</html>

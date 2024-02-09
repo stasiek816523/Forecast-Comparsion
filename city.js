@@ -14,12 +14,12 @@ async function success(position) {
     document.getElementById("currentCity").textContent = timeZoneData[1]+", "+timeZoneData[2];
     var forecast1 = await visualCrossingAPI(latitude,longitude, timeZoneData[0]);
 
-    document.getElementById("icon1").src = forecast1[9];
+    document.getElementById("icon1").src = iconMatching(forecast1[9]);
     document.getElementById("icon1").display = 'block';
     document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +"C°";
     document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +"C°";
-    document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +"mm "+forecast1[3];
-    document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " " + forecast1[4];
+    document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+forecast1[3];
+    document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " kph " + windDirectionCorrection(forecast1[4]);
     document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
 
 }
@@ -66,7 +66,7 @@ function visualCrossingAPI(latitude, longitude, time){
     .then(response => response.json())
         .then(data => {
             var currentConditions = data.currentConditions;
-            return[currentConditions.temp, currentConditions.feelslike,currentConditions.precip,currentConditions.windspeed,currentConditions.winddir,currentConditions.pressure,currentConditions.sunrise, currentConditions.sunset, currentConditions.icon];
+            return[currentConditions.temp, currentConditions.feelslike,currentConditions.precip,currentConditions.preciptype,currentConditions.windspeed,currentConditions.winddir,currentConditions.pressure,currentConditions.sunrise, currentConditions.sunset, currentConditions.icon];
         })
     .catch(err => {
         console.error(err);
@@ -94,7 +94,30 @@ function windDirectionCorrection(directionInDegrees){
         return '?';
     }
 }
-
+function iconMatching(JSONdescription){
+    switch(JSONdescription) {
+        case 'snow':
+            return "weatherIcons/snow.png"
+        case 'rain':
+            return "weatherIcons/rain.png";
+        case 'fog':
+            return "weatherIcons/fog.png";
+        case 'wind':
+            return "weatherIcons/wind.png";
+        case 'cloudy':
+            return "weatherIcons/cloudy.png";
+        case 'partly-cloudy-day':
+            return "weatherIcons/partly-cloudy-day.png";
+        case 'partly-cloudy-night':
+            return "weatherIcons/partly-cloudy-night.png";
+        case 'clear-day':
+            return "weatherIcons/clear-day.png";
+        case 'clear-night':
+            return "weatherIcons/clear-night.png";
+        default:
+            return '?';
+    }
+}
 
 /*
 function extractTimezoneOffset(timezoneString) {

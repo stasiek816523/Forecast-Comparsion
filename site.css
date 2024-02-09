@@ -116,18 +116,19 @@ label a{
 .visualCrossing{
     padding: 10px;
     font-weight: bold;
-    text-align: right;
-}
+    text-align: left;
 
+}
 
 #icon1{
-    display: none;
     height: 1vh;
     width: auto;
-    margin: 100px;
+    margin-bottom: 20vh;
 }
 
-
+#weatherData1{
+    overflow:hidden;
+}
 
 
 

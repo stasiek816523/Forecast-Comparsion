@@ -14,7 +14,7 @@ function scrollToTop() {
 }
 
 function copyText() {
-    var textToCopy = "stasiudzi@proton.me";
+    var textToCopy = "galek.job@tutamail.com";
     var messageElement = document.getElementById("copyMessage");
     navigator.clipboard.writeText(textToCopy).then(function() {
         messageElement.textContent = "Copied!";

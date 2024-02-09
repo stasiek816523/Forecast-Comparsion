@@ -13,12 +13,12 @@ async function success(position) {
     var timeZoneData = await timezoneDB(latitude,longitude);
     document.getElementById("currentCity").textContent = timeZoneData[1]+", "+timeZoneData[2];
     var forecast1 = await visualCrossingAPI(latitude,longitude, timeZoneData[0]);
-
+    document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
     document.getElementById("icon1").src = iconMatching(forecast1[9]);
     document.getElementById("icon1").display = 'block';
-    document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +"C°";
-    document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +"C°";
-    document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+forecast1[3];
+    document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +" C°";
+    document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +" C°";
+    document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+precipCorrection(forecast1[3]);
     document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " kph " + windDirectionCorrection(forecast1[4]);
     document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
 
@@ -118,7 +118,13 @@ function iconMatching(JSONdescription){
             return '?';
     }
 }
-
+function precipCorrection(precip){
+    if(precip == null){
+        return "";
+    }else{
+        return precip;
+    }
+}
 /*
 function extractTimezoneOffset(timezoneString) {
     var parts = timezoneString.split(':');

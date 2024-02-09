@@ -105,33 +105,49 @@ label a{
     padding: 10vh 3vw 10vh 3vw;
 }
 .tile {
-    border: 1px solid #000;
     border-radius: 20px;
     height: 40vh;
-    width: 40vw;
-    background-color: #1b0703 ;
-    color: aliceblue;
+    width: 30vw;
+    background-color: #ffcc4d ;
+    color: black;
 }
-
-.visualCrossing{
+.weatherData{
     padding: 10px;
     font-weight: bold;
     text-align: left;
-
 }
-
-#icon1{
-    height: 1vh;
+.weatherIcon{
+    height: 12vh;
     width: auto;
-    margin-bottom: 20vh;
+    margin-left: 4vw;
+    padding: 10px;
 }
-
-#weatherData1{
+.tempTitle{
+    position: absolute;
+    top: 48.5vh; 
+    left: 19vw; 
+    z-index: 1;
+    font-size: 5vh;
+    font-weight: bold;
+    color:black;
+}
+.weatherTable{
     overflow:hidden;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.weatherSource{
+    text-align: center;
+    margin-top: 1vh;
+    font-size: 1vh;
+    color: black;
+    font-style: italic;
 }
 
-
-
+.weatherSource a{
+    color: #000;
+}
 
 .bottomImg{
     height: 2vh;

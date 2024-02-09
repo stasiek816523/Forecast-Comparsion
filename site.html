@@ -27,7 +27,6 @@
 <div class="nonBars">
 <div id="currentCity">Enter city name below</div>
 
-
 <div id="cityForm">
     <form action="city.js" autocomplete="off" method="get">
         <input type="text" id="city" name="city" placeholder="Search city">
@@ -38,28 +37,56 @@
 
 <div class="container">
     <div class="tile">
-        <img class="visualCrossing" id="icon1" src="2/android-chrome-192x192.png" alt="icon1"><br>
-        <div id="weatherData1">
-        <hr>
-        <label class="visualCrossing" id="temperature1">Temperature:</label><br>
-        <label class="visualCrossing" id="feelslike1">Feels like:</label><br>
-        <label class="visualCrossing" id="precip1">Precip:</label><br>
-        <label class="visualCrossing" id="wind1">Wind:</label><br>
-        <label class="visualCrossing" id="pressure1">Pressure:</label>
+        <img class="weatherIcon" id="icon1" src="#" alt=""><br>
+        <p class="tempTitle" id="tempTitle1"></p>
+        <div class="weatherTable" id="weatherData1">
+        <hr><br>
+        <label class="weatherData" id="temperature1">Temperature:</label><br><br>
+        <label class="weatherData" id="feelslike1">Feels like:</label><br><br>
+        <label class="weatherData" id="precip1">Precip:</label><br><br>
+        <label class="weatherData" id="wind1">Wind:</label><br><br>
+        <label class="weatherData" id="pressure1">Pressure:</label><br>
+        <p class="weatherSource" id="weatherSource1">Source: <a target="_blank" href="https://www.visualcrossing.com/weather-api">Visual Crossing API</a></p>
         </div>
     </div>
-    <div class="tile">Second</div>
-    <div class="tile">Third</div>
+    <div class="tile">
+        <img class="weatherIcon" id="icon2" src="#" alt=""><br>
+        <p class="tempTitle" id="tempTitle2"></p>
+        <div class="weatherTable" id="weatherData2">
+        <hr><br>
+        <label class="weatherData" id="temperature2">Temperature:</label><br><br>
+        <label class="weatherData" id="feelslike2">Feels like:</label><br><br>
+        <label class="weatherData" id="precip2">Precip:</label><br><br>
+        <label class="weatherData" id="wind2">Wind:</label><br><br>
+        <label class="weatherData" id="pressure2">Pressure:</label>
+        <label class="weatherSource" id="weatherSource2"></label>
+        </div>
+    </div>
+    <div class="tile">
+        <img class="weatherIcon" id="icon3" src="#" alt=""><br>
+        <p class="tempTitle" id="tempTitle3"></p>
+        <div class="weatherTable" id="weatherData3">
+        <hr><br>
+        <label class="weatherData" id="temperature3">Temperature:</label><br><br>
+        <label class="weatherData" id="feelslike3">Feels like:</label><br><br>
+        <label class="weatherData" id="precip3">Precip:</label><br><br>
+        <label class="weatherData" id="wind3">Wind:</label><br><br>
+        <label class="weatherData" id="pressure3">Pressure:</label>
+        <label class="weatherSource" id="weatherSource3"></label>
+        </div>
+    </div>
 </div>
 
 </div>
+
+
 <div class="bars" id="bottomBar">
     <a id="bottomIcon" href="site.html"><img class="bottomImg" src="1/favicon-32x32.png" alt="fav"></a>
     <label id="bottomTitle">Forecast Comparsion</label>
     <ul>
         <li><a class="activeOnHover" href="about.html">About</a></li>
         <li><a class="activeOnHover" href="contact.html">Contact</a></li>
-        <li><a href="https://github.com" target="_blank"><img class="bottomImg" src="2/git.png" alt="github"></a></li>
+        <li><a href="https://github.com/stasiek816523" target="_blank"><img class="bottomImg" src="2/git.png" alt="github"></a></li>
         <li><img id="mail" class="bottomImg" src="2/mail.png" alt="mail" onclick="copyText()"></li>
     </ul>
 

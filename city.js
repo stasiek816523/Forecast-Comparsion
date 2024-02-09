@@ -1,15 +1,20 @@
 window.onload = function() {
     if (navigator.geolocation) {
         watchId = navigator.geolocation.watchPosition(success, error);
+        //sleep(2000);
+        //navigator.geolocation.clearWatch(watchId);
     }
 }
 
 async function success(position) {
     var latitude  = position.coords.latitude;
     var longitude = position.coords.longitude;
+
+    navigator.geolocation.clearWatch(watchId);
+
     var timeZoneData = await timezoneDB(latitude,longitude);
     document.getElementById("currentCity").textContent = timeZoneData[1]+", "+timeZoneData[2];
-    var forecast1 = visualCrossingAPI(latitude,longitude, timeZoneData[0]);
+    var forecast1 = await visualCrossingAPI(latitude,longitude, timeZoneData[0]);
 
     document.getElementById("icon1").src = forecast1[9];
     document.getElementById("icon1").display = 'block';
@@ -20,7 +25,6 @@ async function success(position) {
     document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
 
 }
-
 function error() {
     return -1;
 }
@@ -54,15 +58,16 @@ function timezoneDB(latitude, longitude){
 function visualCrossingAPI(latitude, longitude, time){
 
     var base = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
-    base+=latitude + ",";
+    base+=latitude + "%2C";
     base+=longitude +"/";
-    base+=time;
-    base+="?key=KUTJNGNY63AY36H5R5YAE9ZY8";
-    base+="&include=current";
-    base+="&elements=temp,feelslike,precip,preciptype,winddir,windspeed,pressure,sunrise,sunset,icon"
+    base+="today?unitGroup=metric&elements=datetime%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Cicon&include=current%2Cfcst&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
 
-    return fetch(base).then(response => response.json())
+    return fetch(base).then(response => {
+        console.log(response);
+        response.json()
+    })
     .then(data => {
+
         return [data.temp,data.feelslike,data.precip,data.preciptype,data.winddir,data.windspeed,data.pressure,data.sunrise,data.sunset,data.icon];
     })
     .catch(error => {

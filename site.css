@@ -90,7 +90,7 @@ label a{
     height: auto;
     background-color: transparent;
     border: none;
-    margin-top: 1.5vh;
+    margin-top: 1.3vh;
     padding-right: 0.5vw;
     cursor: pointer;
     float: right;
@@ -106,13 +106,31 @@ label a{
 }
 .tile {
     border: 1px solid #000;
-    padding: 20px;
     border-radius: 20px;
     height: 40vh;
     width: 40vw;
     background-color: #1b0703 ;
     color: aliceblue;
 }
+
+.visualCrossing{
+    padding: 10px;
+    font-weight: bold;
+    text-align: right;
+}
+
+
+#icon1{
+    height: 1vh;
+    width: auto;
+    margin: 100px;
+}
+
+
+
+
+
+
 .bottomImg{
     height: 2vh;
     width: auto;

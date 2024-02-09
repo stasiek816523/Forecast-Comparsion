@@ -7,6 +7,11 @@ document.getElementById("cityForm").addEventListener("submit", function(event) {
     if( location != -1){
         var timeData = timezoneDB(location[0],location[1]);
         var forecast1 = visualCrossingAPI(location[0],location[1], timeData[0]);
+        document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +"C°";
+        document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +"C°";
+        document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +"mm "+forecast1[3];
+        document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " " + forecast1[4];
+        document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
 
     }else{
 
@@ -18,7 +23,6 @@ function usersLocalization(){
         navigator.geolocation.getCurrentPosition(function(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
-
             return [latitude, longitude];
         });
     }else{
@@ -55,11 +59,11 @@ function visualCrossingAPI(latitude, longitude, time){
     base+=time;
     base+="?key=KUTJNGNY63AY36H5R5YAE9ZY8";
     base+="&include=current";
-    base+="&elements=temp,feelslike,precip,precipprob,preciptype,winddir,windspeed,pressure,sunrise,sunset,icon"
+    base+="&elements=temp,feelslike,precip,preciptype,winddir,windspeed,pressure,sunrise,sunset,icon"
 
     fetch(base).then(response => response.json())
     .then(data => {
-        return [data.temp,data.feelslike,data.precip,data.precipprob,data.preciptype,data.winddir,data.windspeed,data.pressure,data.sunrise,data.sunset,data.icon];
+        return [data.temp,data.feelslike,data.precip,data.preciptype,data.winddir,data.windspeed,data.pressure,data.sunrise,data.sunset,data.icon];
     })
     .catch(error => {
         console.error('Error:', error);

@@ -1,54 +1,54 @@
-document.getElementById("cityForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    var location = usersLocalization();
-    if( location != -1){
-        document.getElementById("currentCity").textContent = location[1];
-        var timeData = timezoneDB(location[0],location[1]);
-        console.log(timeData);
-        var forecast1 = visualCrossingAPI(location[0],location[1], timeData[0]);
-        document.getElementById("icon1").src = forecast1[9];
-        document.getElementById("icon1").display = 'block';
-        document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +"C°";
-        document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +"C°";
-        document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +"mm "+forecast1[3];
-        document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " " + forecast1[4];
-        document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
-    }else{
-        document.getElementById("temperature1").textContent = "kurwa:";
-    }
-
-});
-function usersLocalization(){
-    if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            return [latitude, longitude];
-        });
-    }else{
-        return -1;
+window.onload = function() {
+    if (navigator.geolocation) {
+        watchId = navigator.geolocation.watchPosition(success, error);
     }
 }
 
+async function success(position) {
+    var latitude  = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    var timeZoneData = await timezoneDB(latitude,longitude);
+    document.getElementById("currentCity").textContent = timeZoneData[1]+", "+timeZoneData[2];
+    var forecast1 = visualCrossingAPI(latitude,longitude, timeZoneData[0]);
+
+    document.getElementById("icon1").src = forecast1[9];
+    document.getElementById("icon1").display = 'block';
+    document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +"C°";
+    document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +"C°";
+    document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +"mm "+forecast1[3];
+    document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " " + forecast1[4];
+    document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
+
+}
+
+function error() {
+    return -1;
+}
+
+document.getElementById("cityForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+});
+
 function timezoneDB(latitude, longitude){
-    var base = "http://api.timezonedb.com/v2.1/get-time-zone?key=6Y48984OB897&format=json&by=position&lat="
+    var base = "http://api.timezonedb.com/v2.1/get-time-zone?key=6Y48984OB897&format=json&by=position&lat=";
     base+=latitude;
     base+="&lng=";
     base+=longitude;
-    var time, cityName, countryCode;
+    var time = null, cityName =null, countryCode=null;
 
-    fetch(base).then(response => response.json())
-    .then(data => {
-        time = data.formatted;
-        time = time.replace(" ", "T");
-        cityName = data.cityName;
-        countryCode = data.countryCode;
-    })
+    return fetch(base)
+    .then(response => response.json())
+        .then(data => {
+            time = data.formatted;
+            time = time.replace(" ", "T");
+            cityName = data.cityName;
+            countryCode = data.countryCode;
+            return [time, cityName, countryCode];
+        })
     .catch(error => {
         console.error('Error:', error);
     });
-
-    return [time, cityName, countryCode];
 }
 
 function visualCrossingAPI(latitude, longitude, time){
@@ -61,7 +61,7 @@ function visualCrossingAPI(latitude, longitude, time){
     base+="&include=current";
     base+="&elements=temp,feelslike,precip,preciptype,winddir,windspeed,pressure,sunrise,sunset,icon"
 
-    fetch(base).then(response => response.json())
+    return fetch(base).then(response => response.json())
     .then(data => {
         return [data.temp,data.feelslike,data.precip,data.preciptype,data.winddir,data.windspeed,data.pressure,data.sunrise,data.sunset,data.icon];
     })

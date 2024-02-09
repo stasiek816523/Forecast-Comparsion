@@ -28,7 +28,6 @@ async function success(position) {
 function error() {
     return -1;
 }
-
 document.getElementById("cityForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -60,20 +59,26 @@ function visualCrossingAPI(latitude, longitude, time){
     var base = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
     base+=latitude + "%2C";
     base+=longitude +"/";
-    base+="today?unitGroup=metric&elements=datetime%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Cicon&include=current%2Cfcst&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
+    base+="today?unitGroup=metric&elements=datetime%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=current%2Cfcst&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
 
-    return fetch(base).then(response => {
-        console.log(response);
-        response.json()
+    return fetch(base, {
+        "method": "GET",
+        "headers": {}
     })
-    .then(data => {
-
-        return [data.temp,data.feelslike,data.precip,data.preciptype,data.winddir,data.windspeed,data.pressure,data.sunrise,data.sunset,data.icon];
-    })
-    .catch(error => {
-        console.error('Error:', error);
+    .then(response => response.json())
+        .then(data => {
+            var currentConditions = data.currentConditions;
+            return[currentConditions.temp, currentConditions.feelslike,currentConditions.precip,currentConditions.windspeed,currentConditions.winddir,currentConditions.pressure,currentConditions.sunrise, currentConditions.sunset, currentConditions.icon];
+        })
+    .catch(err => {
+        console.error(err);
     });
 }
+
+function windDirectionCorrection(){
+    
+}
+
 
 /*
 function extractTimezoneOffset(timezoneString) {

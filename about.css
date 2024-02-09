@@ -140,4 +140,9 @@ label a{
     opacity: 0.5;
     background-color: grey;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+#mail{
+    cursor: pointer;
 }

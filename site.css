@@ -144,11 +144,9 @@ label a{
     color: black;
     font-style: italic;
 }
-
 .weatherSource a{
     color: #000;
 }
-
 .bottomImg{
     height: 2vh;
     width: auto;
@@ -213,4 +211,7 @@ label a{
     opacity: 0.5;
     background-color: grey;
     border-radius: 5px;
+}
+#mail{
+    cursor: pointer;
 }

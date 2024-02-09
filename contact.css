@@ -78,7 +78,8 @@ label a{
 .bottomImg{
     height: 2vh;
     width: auto;
-    margin-top: 0.2vh;
+    margin-top: 0.5vh;
+    padding-top: 0.3vh;
 }
 #bottomBar{
     position: absolute;
@@ -141,4 +142,8 @@ label a{
     opacity: 0.5;
     background-color: grey;
     border-radius: 5px;
+
+}
+#mail{
+    cursor: pointer;
 }

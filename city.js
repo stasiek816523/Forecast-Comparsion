@@ -1,8 +1,6 @@
 window.onload = function() {
     if (navigator.geolocation) {
         watchId = navigator.geolocation.watchPosition(success, error);
-        //sleep(2000);
-        //navigator.geolocation.clearWatch(watchId);
     }
 }
 
@@ -75,8 +73,26 @@ function visualCrossingAPI(latitude, longitude, time){
     });
 }
 
-function windDirectionCorrection(){
-    
+function windDirectionCorrection(directionInDegrees){
+    if(directionInDegrees > 327 || directionInDegrees <= 22){ //N
+        return 'N';
+    }else if(directionInDegrees <= 67 && directionInDegrees > 22){ // NE
+        return 'NE';
+    }else if(directionInDegrees <= 112 && directionInDegrees > 67){ // E
+        return 'E';
+    }else if(directionInDegrees <= 157 && directionInDegrees > 112){ // SE
+        return 'SE';
+    }else if(directionInDegrees <= 202 && directionInDegrees > 157){ // S
+        return 'S';
+    }else if(directionInDegrees <= 247 && directionInDegrees > 202){ // SW
+        return 'SW';
+    }else if(directionInDegrees <= 292 && directionInDegrees > 247){ // W
+        return 'W';
+    }else if(directionInDegrees <= 327 && directionInDegrees > 292){ // NW
+        return 'NW';
+    }else{
+        return '?';
+    }
 }
 
 

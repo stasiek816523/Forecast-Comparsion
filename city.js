@@ -5,8 +5,9 @@ document.getElementById("cityForm").addEventListener("submit", function(event) {
 
     var location = usersLocalization();
     if( location != -1){
-        var data = timezoneDB(location[0],location[1]);
-        visualCrossingAPI(location[0],location[1], data[0]);
+        var timeData = timezoneDB(location[0],location[1]);
+        var forecast1 = visualCrossingAPI(location[0],location[1], timeData[0]);
+
     }else{
 
     }
@@ -54,11 +55,11 @@ function visualCrossingAPI(latitude, longitude, time){
     base+=time;
     base+="?key=KUTJNGNY63AY36H5R5YAE9ZY8";
     base+="&include=current";
-
+    base+="&elements=temp,feelslike,precip,precipprob,preciptype,winddir,windspeed,pressure,sunrise,sunset,icon"
 
     fetch(base).then(response => response.json())
     .then(data => {
-
+        return [data.temp,data.feelslike,data.precip,data.precipprob,data.preciptype,data.winddir,data.windspeed,data.pressure,data.sunrise,data.sunset,data.icon];
     })
     .catch(error => {
         console.error('Error:', error);

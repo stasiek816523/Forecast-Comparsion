@@ -11,7 +11,7 @@ async function success(position) {
     navigator.geolocation.clearWatch(watchId);
 
     visualcrossing(latitude,longitude);
-    openMeteo(latitude,longitude)
+    openMeteo(latitude,longitude);
 }
 
 async function visualcrossing(latitude,longitude){
@@ -24,7 +24,7 @@ async function visualcrossing(latitude,longitude){
     document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +" C°";
     document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +" C°";
     document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+precipCorrection(forecast1[3]);
-    document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " kph " + windDirectionCorrection(forecast1[4]);
+    document.getElementById("wind1").textContent = "Wind: " + forecast1[4] + " kph " + windDirectionCorrection(forecast1[5]);
     document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
 
 }
@@ -147,22 +147,35 @@ function openMeteoByXY(latitude, longitude){
     .then(response => response.json())
         .then(data => {
             var currentConditions = data.current;
-            return[currentConditions.temperature_2m, currentConditions.apparent_temperature,currentConditions.precipitation,currentConditions.wind_speed_10m,currentConditions.wind_directon_10m,currentConditions.pressure_ms1, currentConditions.is_day, currentConditions.weather_code, currentConditions.rain, currentConditions.shower, currentConditions.snowfall];
+            return[currentConditions.temperature_2m, currentConditions.apparent_temperature,currentConditions.precipitation,currentConditions.wind_speed_10m,currentConditions.wind_direction_10m,currentConditions.pressure_msl, currentConditions.is_day, currentConditions.weather_code, currentConditions.rain, currentConditions.showers, currentConditions.snowfall];
         })
     .catch(err => {
         console.error(err);
     });
 }
 async function openMeteo(latitude,longitude){
+    /* 
+    0 - temperature_2m
+    1 - apparent_temperature
+    2 - precipitation
+    3 - wind_speed_10m
+    4 - wind_direction_10m
+    5 - pressure_msl
+    6 - is_day
+    7 - weather_code
+    8 - rain
+    9 - showers
+    10 - snowfall
+    */
     var forecast2 = await openMeteoByXY(latitude,longitude);
     document.getElementById("tempTitle2").textContent = forecast2[0] +"°";
-    document.getElementById("icon2").src = iconMatchingOpenMeteo(forecast2[8], forecast2[7]);
+    document.getElementById("icon2").src = iconMatchingOpenMeteo(forecast2[7], forecast2[6]);
     document.getElementById("icon2").display = 'block';
     document.getElementById("temperature2").textContent = "Temperature: " + forecast2[0] +" C°";
     document.getElementById("feelslike2").textContent = "Feels like: " + forecast2[1] +" C°";
-    document.getElementById("precip2").textContent = "Precip: " + forecast2[2] +" mm "+openMeteoPrecip(forecast2[2],forecast2[9],forecast2[10],forecast2[11]);
-    document.getElementById("wind2").textContent = "Wind: " + forecast2[4] + " kph " + windDirectionCorrection(forecast2[5]);
-    document.getElementById("pressure2").textContent = " Pressure:  " + forecast2[6] +" hPa.";
+    document.getElementById("precip2").textContent = "Precip: " + forecast2[2] +" mm "+openMeteoPrecip(forecast2[2],forecast2[8],forecast2[9],forecast2[10]);
+    document.getElementById("wind2").textContent = "Wind: " + forecast2[3] + " kph " + windDirectionCorrection(forecast2[4]);
+    document.getElementById("pressure2").textContent = " Pressure:  " + forecast2[5] +" hPa.";
 
 }
 function openMeteoPrecip(precipitation, rain, shower, snowfall){
@@ -225,8 +238,6 @@ function iconMatchingOpenMeteo(weatherCode, isDay){
         return "weatherIcons/rain.png";
     }
 }
-
-
 document.getElementById("cityForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -241,7 +252,7 @@ document.getElementById("cityForm").addEventListener("submit", function(event) {
         document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +" C°";
         document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +" C°";
         document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+precipCorrection(forecast1[3]);
-        document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " kph " + windDirectionCorrection(forecast1[4]);
+        document.getElementById("wind1").textContent = "Wind: " + forecast1[4] + " kph " + windDirectionCorrection(forecast1[5]);
         document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
     })
     .catch(function(error) {

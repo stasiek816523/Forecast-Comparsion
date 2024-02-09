@@ -29,9 +29,9 @@ function error() {
 document.getElementById("cityForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    document.getElementById("currentCity").textContent = timeZoneData[1]+", "+timeZoneData[2];
-    const formData = new FormData(event.target);
-    var forecast1 = visualCrossingAPIbyCity(formData);
+    var city = document.getElementById("city").value;
+    var forecast1 = visualCrossingAPIbyCity(city);
+    document.getElementById("currentCity").textContent = forecast1[10];
     document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
     document.getElementById("icon1").src = iconMatching(forecast1[9]);
     document.getElementById("icon1").display = 'block';
@@ -102,8 +102,6 @@ function visualCrossingAPIbyCity(city){
         console.error(err);
     });
 }
-
-
 function windDirectionCorrection(directionInDegrees){
     if(directionInDegrees > 327 || directionInDegrees <= 22){ //N
         return 'N';

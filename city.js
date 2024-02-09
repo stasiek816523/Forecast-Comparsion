@@ -12,7 +12,7 @@ async function success(position) {
 
     var timeZoneData = await timezoneDB(latitude,longitude);
     document.getElementById("currentCity").textContent = timeZoneData[1]+", "+timeZoneData[2];
-    var forecast1 = await visualCrossingAPI(latitude,longitude, timeZoneData[0]);
+    var forecast1 = await visualCrossingAPIbyXY(latitude,longitude, timeZoneData[0]);
     document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
     document.getElementById("icon1").src = iconMatching(forecast1[9]);
     document.getElementById("icon1").display = 'block';
@@ -28,6 +28,18 @@ function error() {
 }
 document.getElementById("cityForm").addEventListener("submit", function(event) {
     event.preventDefault();
+
+    document.getElementById("currentCity").textContent = timeZoneData[1]+", "+timeZoneData[2];
+    const formData = new FormData(event.target);
+    var forecast1 = visualCrossingAPIbyCity(formData);
+    document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
+    document.getElementById("icon1").src = iconMatching(forecast1[9]);
+    document.getElementById("icon1").display = 'block';
+    document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +" C°";
+    document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +" C°";
+    document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+precipCorrection(forecast1[3]);
+    document.getElementById("wind1").textContent = "Wind: " + forecast1[5] + " kph " + windDirectionCorrection(forecast1[4]);
+    document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
 
 });
 
@@ -52,7 +64,7 @@ function timezoneDB(latitude, longitude){
     });
 }
 
-function visualCrossingAPI(latitude, longitude, time){
+function visualCrossingAPIbyXY(latitude, longitude, time){
 
     var base = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
     base+=latitude + "%2C";
@@ -72,6 +84,25 @@ function visualCrossingAPI(latitude, longitude, time){
         console.error(err);
     });
 }
+
+function visualCrossingAPIbyCity(city){
+    var base="https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+    base+=city+"/today?unitGroup=metric&elements=resolvedAddress%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=fcst%2Ccurrent&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
+
+    return fetch(base, {
+        "method": "GET",
+        "headers": {}
+    })
+    .then(response => response.json())
+        .then(data => {
+            var currentConditions = data.currentConditions;
+            return[currentConditions.temp, currentConditions.feelslike,currentConditions.precip,currentConditions.preciptype,currentConditions.windspeed,currentConditions.winddir,currentConditions.pressure,currentConditions.sunrise, currentConditions.sunset, currentConditions.icon, currentConditions.resolvedAddress];
+        })
+    .catch(err => {
+        console.error(err);
+    });
+}
+
 
 function windDirectionCorrection(directionInDegrees){
     if(directionInDegrees > 327 || directionInDegrees <= 22){ //N

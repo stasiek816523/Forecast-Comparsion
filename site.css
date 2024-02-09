@@ -126,12 +126,18 @@ label a{
 .tempTitle{
     position: absolute;
     top: 48.5vh; 
-    left: 19vw; 
     z-index: 1;
     font-size: 5vh;
     font-weight: bold;
     color:black;
 }
+#tempTitle1{
+    left: 19vw; 
+}
+#tempTitle2{
+    left: 39vw; 
+}
+
 .weatherTable{
     overflow:hidden;
     bottom: 0;

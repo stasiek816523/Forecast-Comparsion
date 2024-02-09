@@ -1,9 +1,10 @@
 document.getElementById("cityForm").addEventListener("submit", function(event) {
     event.preventDefault();
     var location = usersLocalization();
-    document.getElementById("currentCity").textContent = location[1];
     if( location != -1){
+        document.getElementById("currentCity").textContent = location[1];
         var timeData = timezoneDB(location[0],location[1]);
+        console.log(timeData);
         var forecast1 = visualCrossingAPI(location[0],location[1], timeData[0]);
         document.getElementById("icon1").src = forecast1[9];
         document.getElementById("icon1").display = 'block';

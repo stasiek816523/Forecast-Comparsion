@@ -173,7 +173,7 @@ label a{
     float:left;
 }
 #bottomIcon{
-    margin-left: 40vw; 
+    margin-left: 45vw; 
     float: left;
     margin-top: 0.5vh;
 }
@@ -224,9 +224,6 @@ label a{
 #mail{
     cursor: pointer;
 }
-
-
-
 #contactBody{
     margin-top: 10vh;
     max-width: 80vw;
@@ -240,7 +237,6 @@ label a{
     padding-right: 10vw;
     padding-top: 10vh;
 }
-
 
 #aboutBody{
     margin-top: 10vh;

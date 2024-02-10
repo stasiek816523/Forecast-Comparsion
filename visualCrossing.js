@@ -21,6 +21,7 @@ async function visualCrossingAPIbyCity(city){
         .set_icon(currentConditions.icon).set_resolvedAddress(currentConditions.resolvedAddress);
 
         return api1data;
+
     }catch(error){
         console.error(error);
     }

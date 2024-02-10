@@ -8,7 +8,7 @@ function success(position) {
     var longitude = position.coords.longitude;
 
     navigator.geolocation.clearWatch(watchId);
-
+    document.getElementById("currentCity").textContent = shortenResolvedAddress(reverseOpenStreetMapNominatim(latitude, longitude));
     visualcrossing(latitude,longitude);
     openMeteo(latitude,longitude);
 }
@@ -167,7 +167,6 @@ function setDataToTile(dataFromApi, number){
 
     document.getElementById(`tempTitle${number}`).textContent = dataFromApi.get_temperature() +"°";
     if(number ==1){
-        document.getElementById("currentCity").textContent = dataFromApi.get_resolvedAddress();                                         //!!!!!!
         document.getElementById(`icon${number}`).src = iconMatching(dataFromApi.get_icon());
     }else if(number ==2){
         document.getElementById(`icon${number}`).src = iconMatchingOpenMeteo(dataFromApi.get_weather_code(), dataFromApi.get_isDay());
@@ -187,10 +186,6 @@ function setDataToTile(dataFromApi, number){
     document.getElementById(`wind${number}`).textContent = "Wind: " + dataFromApi.get_wind_speed() + " kph " + windDirectionCorrection(dataFromApi.get_wind_direction());
     document.getElementById(`pressure${number}`).textContent = " Pressure:  " + dataFromApi.get_pressure() +" hPa.";
 }
-
-
-
-
 
 
 

@@ -3,12 +3,6 @@ async function openMeteo(latitude,longitude){
     setDataToTile(data, 2);
 }
 
-
-async function openMeteoByCity(city){
-    var data = await openStreetMapNominatim(city);
-    const apiData = await openMeteoByXY(data[0],data[1]);
-    return apiData;
-}
 async function openMeteoByXY(latitude, longitude){
     try{
         let apiUrl = "https://api.open-meteo.com/v1/dwd-icon?latitude="
@@ -29,8 +23,6 @@ async function openMeteoByXY(latitude, longitude){
         console.error(error);
     }
 }
-
-
 
 
 function openMeteoPrecip(precipitation, rain, shower, snowfall){

@@ -120,7 +120,7 @@ label a{
 .weatherIcon{
     height: 12vh;
     width: auto;
-    margin-left: 4vw;
+    margin-left: 2vw;
     padding: 10px;
 }
 .tempTitle{
@@ -132,7 +132,7 @@ label a{
     color:black;
 }
 #tempTitle1{
-    left: 19vw; 
+    left: 17vw; 
 }
 #tempTitle2{
     left: 52vw; 

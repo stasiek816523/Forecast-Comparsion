@@ -193,15 +193,12 @@ document.getElementById("cityForm").addEventListener("submit", async function(ev
     event.preventDefault();
 
     var city = document.getElementById("city").value;
-    document.getElementById("currentCity").textContent = shortenResolvedAddress(forecast1[10]);
+    var data = await openStreetMapNominatim(city);
+    const adr = await reverseOpenStreetMapNominatim(data[0],data[1]);
+    document.getElementById("currentCity").textContent = shortenResolvedAddress(adr);
 
-    const data1 = await visualCrossingAPIbyCity(city);
-    setDataToTile(data1, 1);
-
-
-    const data2 = await openMeteoByCity(city);
-    setDataToTile(data2, 2);
-
+    visualcrossing(data[0],data[1]);
+    openMeteo(data[0], data[1]);
 
 });
 

@@ -13,15 +13,17 @@ function scrollToTop() {
     document.documentElement.scrollTop = 0; /*Firefox */
 }
 
-function copyText() {
+function copyText(message) {
     var textToCopy = "galek.job@tutamail.com";
     var messageElement = document.getElementById("copyMessage");
     navigator.clipboard.writeText(textToCopy).then(function() {
+        if(message == 1){
         messageElement.textContent = "Copied!";
         messageElement.style.display = "block";
         setTimeout(function() {
             messageElement.style.display = "none";
           }, 2000);
+        }
     }, function() {
       alert("Copy Error");
     });

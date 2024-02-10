@@ -238,6 +238,7 @@ function shortenResolvedAddress(resolvedAddress){
     if (start !== -1 && end !== -1) {
         resolvedAddress = resolvedAddress.substring(0, start) + resolvedAddress.substring(end);
     }   
+
     return resolvedAddress;
 }
 

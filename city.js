@@ -3,7 +3,121 @@ window.onload = function() {
         watchId = navigator.geolocation.watchPosition(success, error);
     }
 }
+async function success(position) {
+    var latitude  = position.coords.latitude;
+    var longitude = position.coords.longitude;
 
+    navigator.geolocation.clearWatch(watchId);
+
+    visualcrossing(latitude,longitude);
+    openMeteo(latitude,longitude);
+}
+function error() {
+    return -1;
+}
+
+class weatherDataFromAPI{
+    constructor() {
+        this._temperature = null;
+        this._feelslike = null;
+        this._precip = null;
+        this._wind_speed = null;
+        this._wind_direction = null;
+        this._pressure = null;
+        this._sunrise = null;
+        this._sunset = null;
+        this._rain = null;
+        this._showers = null;
+        this._snowfall = null;
+        this._weather_code = null;
+        this._resolvedAddress = null;
+        this._precipType = null;
+    }
+    get temperature() {
+        return this._temperature;
+    }
+    get feelslike() {
+        return this._feelslike;
+    }
+    get precip() {
+        return this._precip;
+    }
+    get wind_speed() {
+        return this._wind_speed;
+    }
+    get wind_direction() {
+        return this._wind_direction;
+    }
+    get pressure() {
+        return this._pressure;
+    }
+    get sunrise() {
+        return this._sunrise;
+    }
+    get sunset() {
+        return this._sunset;
+    }
+    get rain() {
+        return this._rain;
+    }
+    get showers() {
+        return this._showers;
+    }
+    get snowfall() {
+        return this._snowfall;
+    }
+    get weather_code() {
+        return this._weather_code;
+    }
+    get resolvedAddress() {
+        return this._resolvedAddress;
+    }
+    get precipType() {
+        return this._precipType;
+    }
+    set temperature(value) {
+        this._temperature = value;
+    }
+    set feelslike(value) {
+        this._feelslike = value;
+    }
+    set precip(value) {
+        this._precip = value;
+    }
+    set wind_speed(value) {
+        this._wind_speed = value;
+    }
+    set wind_direction(value) {
+        this._wind_direction = value;
+    }
+    set pressure(value) {
+        this._pressure = value;
+    }
+    set sunrise(value) {
+        this._sunrise = value;
+    }
+    set sunset(value) {
+        this._sunset = value;
+    }
+    set rain(value) {
+        this._rain = value;
+    }
+    set showers(value) {
+        this._showers = value;
+    }
+    set snowfall(value) {
+        this._snowfall = value;
+    }
+    set weather_code(value) {
+        this._weather_code = value;
+    }
+    set resolvedAddress(value) {
+        this._resolvedAddress = value;
+    }
+    set precipType(value) {
+        this._precipType = value;
+    }
+}
 
 document.getElementById("cityForm").addEventListener("submit", function(event) {
     event.preventDefault();
@@ -47,20 +161,7 @@ document.getElementById("cityForm").addEventListener("submit", function(event) {
 
 
 
-async function success(position) {
-    var latitude  = position.coords.latitude;
-    var longitude = position.coords.longitude;
 
-    navigator.geolocation.clearWatch(watchId);
-
-    visualcrossing(latitude,longitude);
-    openMeteo(latitude,longitude);
-}
-
-
-function error() {
-    return -1;
-}
 
 function windDirectionCorrection(directionInDegrees){
     if(directionInDegrees > 327 || directionInDegrees <= 22){ //N

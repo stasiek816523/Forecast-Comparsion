@@ -35,7 +35,7 @@ label.logo{
     float: left;
     margin-top: 2vh;
     margin-right: 0.5vw;
-    margin-left: 20vw;
+    margin-left: 38vw;
 }
 nav ul{
     float: right;
@@ -137,7 +137,9 @@ label a{
 #tempTitle2{
     left: 50.5vw; 
 }
-
+#tempTitle3{
+    left: 83.5vw;
+}
 .weatherTable{
     overflow:hidden;
     bottom: 0;

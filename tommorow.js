@@ -12,11 +12,11 @@ async function tommorowApiByXY(latitude, longitude){
 
         const data = await response.json();
 
-        var currentConditions = data[0].intervals[0].values;
+        var currentConditions = data.data.timelines[0].intervals[0].values;
         const apidata = new weatherDataFromAPI();
-        apidata.set_temperature(currentConditions.temperature).set_feelslike(currentConditions.temperatureApparent).set_precip(currentConditions.precipitationIntensity)
+        apidata.set_temperature(currentConditions.temperature.toFixed(1)).set_feelslike(currentConditions.temperatureApparent).set_precip(currentConditions.precipitationIntensity)
         .set_wind_direction(currentConditions.windDirection).set_wind_speed(currentConditions.windSpeed).set_pressure(currentConditions.pressureSurfaceLevel)
-        .set_weather_code(currentConditions.weatherCode).set_precip_type(currentConditions.precipitationType);
+        .set_weather_code(currentConditions.weatherCode).set_precipType(currentConditions.precipitationType);
 
         return apidata;
     }catch(error){
@@ -52,7 +52,7 @@ function iconMatchingTommorow(weatherCode){
 }
 
 
-function precipCorrectionTommorow(precipitationType){
+function tommorowPrecipCorrection(precipitationType){
     switch(precipitationType){
         case 1:
             return 'rain';

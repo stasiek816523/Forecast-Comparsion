@@ -182,7 +182,7 @@ function setDataToTile(dataFromApi, number){
     }else if(number ==2){
         document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.get_precip() +" mm "+openMeteoPrecip(dataFromApi.get_precip(),dataFromApi.get_rain(),dataFromApi.get_showers(),dataFromApi.get_snowfall());
     }else{
-
+        document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.get_precip() +" mm "+tommorowPrecipCorrection(dataFromApi.get_precipType());
     }
     document.getElementById(`wind${number}`).textContent = "Wind: " + dataFromApi.get_wind_speed() + " kph " + windDirectionCorrection(dataFromApi.get_wind_direction());
     document.getElementById(`pressure${number}`).textContent = " Pressure:  " + dataFromApi.get_pressure() +" hPa.";

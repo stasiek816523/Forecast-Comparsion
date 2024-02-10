@@ -171,7 +171,7 @@ function setDataToTile(dataFromApi, number){
     }else if(number ==2){
         document.getElementById(`icon${number}`).src = iconMatchingOpenMeteo(dataFromApi.get_weather_code(), dataFromApi.get_isDay());
     }else{
-
+        document.getElementById(`icon${number}`).src = iconMatchingOpenMeteo(dataFromApi.get_weather_code(), dataFromApi.get_sunrise(), dataFromApi.get_sunset());
     }
     document.getElementById(`icon${number}`).display = 'block';
     document.getElementById(`temperature${number}`).textContent = "Temperature: " + dataFromApi.get_temperature() +" C°";

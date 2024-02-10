@@ -1,7 +1,6 @@
 async function openStreetMapNominatim(city){
     try{
-        let apiUrl = "https://nominatim.openstreetmap.org/search.php?q=";
-        apiUrl+= city +"&format=json";
+        let apiUrl = `https://nominatim.openstreetmap.org/search.php?q=${city}&format=json`;
         const response = await fetch(apiUrl);
 
         const data = await response.json();
@@ -16,8 +15,7 @@ async function openStreetMapNominatim(city){
 
 async function reverseOpenStreetMapNominatim(latitude, longitude){
     try{
-        let apiUrl = "https://nominatim.openstreetmap.org/reverse.php?lat="
-        apiUrl += latitude + "&lon=" + longitude + "&zoom=10&format=json";
+        let apiUrl = `https://nominatim.openstreetmap.org/reverse.php?lat=${latitude}&lon=${longitude}&zoom=10&format=json`;
 
         const response = await fetch(apiUrl);
 

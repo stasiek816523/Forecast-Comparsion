@@ -5,9 +5,8 @@ async function openMeteo(latitude,longitude){
 
 async function openMeteoByXY(latitude, longitude){
     try{
-        let apiUrl = "https://api.open-meteo.com/v1/dwd-icon?latitude="
-        apiUrl += latitude + "&longitude=";
-        apiUrl+= longitude + "&current=temperature_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&forecast_days=1";
+        let apiUrl = `https://api.open-meteo.com/v1/dwd-icon?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&forecast_days=1`;
+
         const response = await fetch(apiUrl);
 
         const data = await response.json();

@@ -6,10 +6,7 @@ async function visualcrossing(latitude,longitude){
 
 async function visualCrossingAPIbyXY(latitude, longitude){
     try{
-        var apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
-        apiUrl+=latitude + "%2C";
-        apiUrl+=longitude +"/";
-        apiUrl+="today?unitGroup=metric&elements=datetime%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=current%2Cfcst&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
+        var apiUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude}%2C${longitude}/today?unitGroup=metric&elements=datetime%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=current%2Cfcst&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json`
 
         const response = await fetch(apiUrl);
 

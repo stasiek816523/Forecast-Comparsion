@@ -9,7 +9,7 @@ function scrollFunction() {
 }
 
 function scrollToTop() {
-    document.body.scrollTop = 0; /*Chrome, Safari i Opera */
+    document.body.scrollTop = 0; /*Chrome, Safari, Opera */
     document.documentElement.scrollTop = 0; /*Firefox */
 }
 

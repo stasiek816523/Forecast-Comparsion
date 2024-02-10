@@ -1,77 +1,55 @@
 async function visualcrossing(latitude,longitude){
-    let data = await visualCrossingAPIbyXY(latitude,longitude);
+    const data = await visualCrossingAPIbyXY(latitude,longitude);
     setDataToTile(data, 1);
-/*
-document.getElementById("currentCity").textContent = shortenResolvedAddress(forecast1[10]);
-    document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
-    document.getElementById("icon1").src = iconMatching(forecast1[9]);
-    document.getElementById("icon1").display = 'block';
-    document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +" C°";
-    document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +" C°";
-    document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+precipCorrection(forecast1[3]);
-    document.getElementById("wind1").textContent = "Wind: " + forecast1[4] + " kph " + windDirectionCorrection(forecast1[5]);
-    document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
-*/
-}
-
-function visualCrossingAPIbyXY(latitude, longitude){
-
-    var apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
-    apiUrl+=latitude + "%2C";
-    apiUrl+=longitude +"/";
-    apiUrl+="today?unitGroup=metric&elements=datetime%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=current%2Cfcst&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
-
-    return fetch(apiUrl, {
-        "method": "GET",
-        "headers": {}
-    })
-    .then(response => response.json())
-        .then(data => {
-            var currentConditions = data.currentConditions;
-            const api1data = new weatherDataFromAPI();
-            api1data.temperature(currentConditions.temp).feelslike(currentConditions.feelslike).precip(currentConditions.precip).precipType(currentConditions.preciptype)
-            .wind_dir(currentConditions.winddir).wind_speed(currentConditions.windspeed).pressure(currentConditions.pressure).sunrise(currentConditions.sunrise).sunset(currentConditions.sunset)
-            .icon(currentConditions.icon).resolvedAddress(currentConditions.resolvedAddress);
-            return api1data;
-        })
-    .catch(err => {
-        console.error(err);
-    });
-}
-function visualCrossingAPIbyCity(city){
-    var apiUrl="https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
-    apiUrl+=city+"/today?unitGroup=metric&elements=resolvedAddress%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=fcst%2Ccurrent&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
-
-    return fetch(apiUrl, {
-        "method": "GET",
-        "headers": {}
-    })
-    .then(response => response.json())
-        .then(data => {
-            var currentConditions = data.currentConditions;
-            const api1data = new weatherDataFromAPI();
-            api1data.temperature(currentConditions.temp).feelslike(currentConditions.feelslike).precip(currentConditions.precip).precipType(currentConditions.preciptype)
-            .wind_dir(currentConditions.winddir).wind_speed(currentConditions.windspeed).pressure(currentConditions.pressure).sunrise(currentConditions.sunrise).sunset(currentConditions.sunset)
-            .icon(currentConditions.icon).resolvedAddress(currentConditions.resolvedAddress);
-            return api1data;
-        })
-    .catch(err => {
-        console.error(err);
-    });
 }
 
 
+async function visualCrossingAPIbyCity(city){
+    try{
+        var apiUrl="https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+        apiUrl+=city+"/today?unitGroup=metric&elements=resolvedAddress%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=fcst%2Ccurrent&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
+
+        const response = await fetch(apiUrl);
+
+        const data = await response.json();
+
+        var currentConditions = data.currentConditions;
+
+        const api1data = new weatherDataFromAPI();
+        api1data.set_temperature(currentConditions.temp).set_feelslike(currentConditions.feelslike).set_precip(currentConditions.precip).set_precipType(currentConditions.preciptype)
+        .set_wind_direction(currentConditions.winddir).set_wind_speed(currentConditions.windspeed).set_pressure(currentConditions.pressure).set_sunrise(currentConditions.sunrise).set_sunset(currentConditions.sunset)
+        .set_icon(currentConditions.icon).set_resolvedAddress(currentConditions.resolvedAddress);
+
+        return api1data;
+    }catch(error){
+        console.error(error);
+    }
+}
 
 
+async function visualCrossingAPIbyXY(latitude, longitude){
+    try{
+        var apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
+        apiUrl+=latitude + "%2C";
+        apiUrl+=longitude +"/";
+        apiUrl+="today?unitGroup=metric&elements=datetime%2Ctemp%2Cfeelslike%2Cprecip%2Cpreciptype%2Cwindspeed%2Cwinddir%2Cpressure%2Csunrise%2Csunset%2Cicon&include=current%2Cfcst&key=KUTJNGNY63AY36H5R5YAE9ZY8&contentType=json"
 
+        const response = await fetch(apiUrl);
 
+        const data = await response.json();
 
+        var currentConditions = data.currentConditions;
 
+        const api1data = new weatherDataFromAPI();
+        api1data.set_temperature(currentConditions.temp).set_feelslike(currentConditions.feelslike).set_precip(currentConditions.precip).set_precipType(currentConditions.preciptype)
+        .set_wind_direction(currentConditions.winddir).set_wind_speed(currentConditions.windspeed).set_pressure(currentConditions.pressure).set_sunrise(currentConditions.sunrise).set_sunset(currentConditions.sunset)
+        .set_icon(currentConditions.icon).set_resolvedAddress(currentConditions.resolvedAddress);
 
-
-
-
-
+        return api1data;
+    }catch(error){
+        console.error(error);
+    }
+}
 
 
 function iconMatching(JSONdescription){

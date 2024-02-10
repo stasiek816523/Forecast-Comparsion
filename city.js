@@ -35,156 +35,157 @@ class weatherDataFromAPI{
         this._isDay = null;
         this._icon = null;
     }
-    get temperature() {
+     get_temperature() {
         return this._temperature;
     }
-    get feelslike() {
+     get_feelslike() {
         return this._feelslike;
     }
-    get precip() {
+     get_precip() {
         return this._precip;
     }
-    get wind_speed() {
+     get_wind_speed() {
         return this._wind_speed;
     }
-    get wind_direction() {
+     get_wind_direction() {
         return this._wind_direction;
     }
-    get pressure() {
+     get_pressure() {
         return this._pressure;
     }
-    get sunrise() {
+     get_sunrise() {
         return this._sunrise;
     }
-    get sunset() {
+     get_sunset() {
         return this._sunset;
     }
-    get rain() {
+     get_rain() {
         return this._rain;
     }
-    get showers() {
+     get_showers() {
         return this._showers;
     }
-    get snowfall() {
+     get_snowfall() {
         return this._snowfall;
     }
-    get weather_code() {
+     get_weather_code() {
         return this._weather_code;
     }
-    get resolvedAddress() {
+     get_resolvedAddress() {
         return this._resolvedAddress;
     }
-    get precipType() {
+     get_precipType() {
         return this._precipType;
     }
-    get icon(){
+     get_icon(){
         return this._icon;
     }
-    get isDay(){
+     get_isDay(){
         return this._isDay;
     }
-    set temperature(value) {
+     set_temperature(value) {
         this._temperature = value;
         return this;
 
     }
-    set feelslike(value) {
+     set_feelslike(value) {
         this._feelslike = value;
         return this;
 
     }
-    set precip(value) {
+     set_precip(value) {
         this._precip = value;
         return this;
 
     }
-    set wind_speed(value) {
+     set_wind_speed(value) {
         this._wind_speed = value;
         return this;
 
     }
-    set wind_direction(value) {
+     set_wind_direction(value) {
         this._wind_direction = value;
         return this;
 
     }
-    set pressure(value) {
+     set_pressure(value) {
         this._pressure = value;
         return this;
 
     }
-    set sunrise(value) {
+     set_sunrise(value) {
         this._sunrise = value;
         return this;
 
     }
-    set sunset(value) {
+     set_sunset(value) {
         this._sunset = value;
         return this;
-
     }
-    set rain(value) {
+     set_rain(value) {
         this._rain = value;
         return this;
 
     }
-    set showers(value) {
+     set_showers(value) {
         this._showers = value;
         return this;
 
     }
-    set snowfall(value) {
+     set_snowfall(value) {
         this._snowfall = value;
         return this;
 
     }
-    set weather_code(value) {
+     set_weather_code(value) {
         this._weather_code = value;
         return this;
 
     }
-    set resolvedAddress(value) {
+     set_resolvedAddress(value) {
         this._resolvedAddress = value;
         return this;
 
     }
-    set precipType(value) {
+     set_precipType(value) {
         this._precipType = value;
         return this;
 
     }
-    set isDay(value){
+     set_isDay(value){
         this._isDay = value;
         return this;
 
     }
-    set icon(value){
+     set_icon(value){
         this._icon = value;
         return this;
     }
 }
 
 function setDataToTile(dataFromApi, number){
-    document.getElementById(`tempTitle${number}`).textContent = dataFromApi.temperature() +"°";
+
+    document.getElementById(`tempTitle${number}`).textContent = dataFromApi.get_temperature() +"°";
     if(number ==1){
-        document.getElementById(`icon${number}`).src = iconMatching(dataFromApi.icon());
+        document.getElementById("currentCity").textContent = dataFromApi.get_resolvedAddress();                                         //!!!!!!
+        document.getElementById(`icon${number}`).src = iconMatching(dataFromApi.get_icon());
     }else if(number ==2){
-        document.getElementById(`icon${number}`).src = iconMatchingOpenMeteo(dataFromApi.weather_code(), dataFromApi.isDay());
+        document.getElementById(`icon${number}`).src = iconMatchingOpenMeteo(dataFromApi.get_weather_code(), dataFromApi.get_isDay());
     }else{
 
     }
     document.getElementById(`icon${number}`).display = 'block';
-    document.getElementById(`temperature${number}`).textContent = "Temperature: " + dataFromApi.temperature() +" C°";
-    document.getElementById(`feelslike${number}`).textContent = "Feels like: " + dataFromApi.feelslike() +" C°";
+    document.getElementById(`temperature${number}`).textContent = "Temperature: " + dataFromApi.get_temperature() +" C°";
+    document.getElementById(`feelslike${number}`).textContent = "Feels like: " + dataFromApi.get_feelslike() +" C°";
     if(number ==1){
-        document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.precip() +" mm "+precipCorrection(dataFromApi.precipType());
+        document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.get_precip() +" mm "+precipCorrection(dataFromApi.get_precipType());
     }else if(number ==2){
-        document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.precip() +" mm "+openMeteoPrecip(dataFromApi.precip(),dataFromApi.rain(),dataFromApi.showers(),dataFromApi.snowfall());
+        document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.get_precip() +" mm "+openMeteoPrecip(dataFromApi.get_precip(),dataFromApi.get_rain(),dataFromApi.get_showers(),dataFromApi.snowfall());
     }else{
 
     }
-    document.getElementById(`wind${number}`).textContent = "Wind: " + dataFromApi.wind_speed() + " kph " + windDirectionCorrection(dataFromApi.wind_direction());
-    document.getElementById(`pressure${number}`).textContent = " Pressure:  " + dataFromApi.pressure() +" hPa.";
+    document.getElementById(`wind${number}`).textContent = "Wind: " + dataFromApi.get_wind_speed() + " kph " + windDirectionCorrection(dataFromApi.get_wind_direction());
+    document.getElementById(`pressure${number}`).textContent = " Pressure:  " + dataFromApi.get_pressure() +" hPa.";
 }
 
 

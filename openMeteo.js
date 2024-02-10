@@ -1,44 +1,35 @@
 async function openMeteo(latitude,longitude){
-    let data = await openMeteoByXY(latitude,longitude);
+    const data = await openMeteoByXY(latitude,longitude);
     setDataToTile(data, 2);
 }
 
 
-function openMeteoByCity(city){
-    var data = openStreetMapNominatim(city);
-    var xy = data.then(response => {
-        const result = response[0];
-        const lat = result.lat;
-        const lon = result.lon;
-        return [lat,lon];
-    }).catch(error => {
-        console.error('Error ', error);
-    });
-    return openMeteoByXY(xy[0],xy[1]);
+async function openMeteoByCity(city){
+    var data = await openStreetMapNominatim(city);
+    const apiData = await openMeteoByXY(data[0],data[1]);
+    return apiData;
 }
-function openMeteoByXY(latitude, longitude){
-    let apiUrl = "https://api.open-meteo.com/v1/dwd-icon?latitude="
-    apiUrl += latitude + "&longitude=";
-    apiUrl+= longitude + "&current=temperature_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&forecast_days=1";
+async function openMeteoByXY(latitude, longitude){
+    try{
+        let apiUrl = "https://api.open-meteo.com/v1/dwd-icon?latitude="
+        apiUrl += latitude + "&longitude=";
+        apiUrl+= longitude + "&current=temperature_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&forecast_days=1";
+        const response = await fetch(apiUrl);
 
-    return fetch(apiUrl, {
-        "method": "GET",
-        "headers": {}
-    })
-    .then(response => response.json())
-        .then(data => {
-            var currentConditions = data.current;
+        const data = await response.json();
 
-            const api1data = new weatherDataFromAPI();
-            api1data.temperature(currentConditions.temperature_2m).feelslike(currentConditions.apparent_temperature).precip(currentConditions.precipitation)
-            .wind_dir(currentConditions.wind_direction_10m).wind_speed(currentConditions.wind_speed_10m).pressure(currentConditions.pressure_msl).isDay(currentConditions.is_day)
-            .weatherCode(currentConditions.weather_code).rain(currentConditions.rain).showers(currentConditions.showers).snowfall(currentConditions.snowfall);
-            return api1data;
-        })
-    .catch(err => {
-        console.error(err);
-    });
+        var currentConditions = data.current;
+        const api1data = new weatherDataFromAPI();
+        api1data.set_temperature(currentConditions.temperature_2m).set_feelslike(currentConditions.apparent_temperature).set_precip(currentConditions.precipitation)
+        .set_wind_dir(currentConditions.wind_direction_10m).set_wind_speed(currentConditions.wind_speed_10m).set_pressure(currentConditions.pressure_msl).set_isDay(currentConditions.is_day)
+        .set_weatherCode(currentConditions.weather_code).set_rain(currentConditions.rain).set_showers(currentConditions.showers).set_snowfall(currentConditions.snowfall);
+
+        return api1data;
+    }catch(error){
+        console.error(error);
+    }
 }
+
 
 
 

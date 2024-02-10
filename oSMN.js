@@ -22,7 +22,9 @@ async function reverseOpenStreetMapNominatim(latitude, longitude){
 
         const data = await response.json();
 
-        return data.display_name;
+        let displayName = data.display_name;
+        console.log(typeof displayName);
+        return displayName;
     }catch(error){
         console.error(error);
     }

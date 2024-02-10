@@ -3,7 +3,7 @@ window.onload = function() {
         watchId = navigator.geolocation.watchPosition(success, error);
     }
 }
-async function success(position) {
+function success(position) {
     var latitude  = position.coords.latitude;
     var longitude = position.coords.longitude;
 
@@ -32,6 +32,8 @@ class weatherDataFromAPI{
         this._weather_code = null;
         this._resolvedAddress = null;
         this._precipType = null;
+        this._isDay = null;
+        this._icon = null;
     }
     get temperature() {
         return this._temperature;
@@ -75,49 +77,123 @@ class weatherDataFromAPI{
     get precipType() {
         return this._precipType;
     }
+    get icon(){
+        return this._icon;
+    }
+    get isDay(){
+        return this._isDay;
+    }
     set temperature(value) {
         this._temperature = value;
+        return this;
+
     }
     set feelslike(value) {
         this._feelslike = value;
+        return this;
+
     }
     set precip(value) {
         this._precip = value;
+        return this;
+
     }
     set wind_speed(value) {
         this._wind_speed = value;
+        return this;
+
     }
     set wind_direction(value) {
         this._wind_direction = value;
+        return this;
+
     }
     set pressure(value) {
         this._pressure = value;
+        return this;
+
     }
     set sunrise(value) {
         this._sunrise = value;
+        return this;
+
     }
     set sunset(value) {
         this._sunset = value;
+        return this;
+
     }
     set rain(value) {
         this._rain = value;
+        return this;
+
     }
     set showers(value) {
         this._showers = value;
+        return this;
+
     }
     set snowfall(value) {
         this._snowfall = value;
+        return this;
+
     }
     set weather_code(value) {
         this._weather_code = value;
+        return this;
+
     }
     set resolvedAddress(value) {
         this._resolvedAddress = value;
+        return this;
+
     }
     set precipType(value) {
         this._precipType = value;
+        return this;
+
+    }
+    set isDay(value){
+        this._isDay = value;
+        return this;
+
+    }
+    set icon(value){
+        this._icon = value;
+        return this;
     }
 }
+
+
+
+function setDataToTile(dataFromApi, number){
+    document.getElementById(`tempTitle${number}`).textContent = dataFromApi.temperature() +"°";
+    if(number ==1){
+        document.getElementById(`icon${number}`).src = iconMatching(dataFromApi.icon());
+    }else if(number ==2){
+        document.getElementById(`icon${number}`).src = iconMatchingOpenMeteo(dataFromApi.weather_code(), dataFromApi.isDay());
+    }else{
+
+    }
+    document.getElementById(`icon${number}`).display = 'block';
+    document.getElementById(`temperature${number}`).textContent = "Temperature: " + dataFromApi.temperature() +" C°";
+    document.getElementById(`feelslike${number}`).textContent = "Feels like: " + dataFromApi.feelslike() +" C°";
+    if(number ==1){
+        document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.precip() +" mm "+precipCorrection(dataFromApi.precipType());
+    }else if(number ==2){
+        document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.precip() +" mm "+openMeteoPrecip(dataFromApi.precip(),dataFromApi.rain(),dataFromApi.showers(),dataFromApi.snowfall());
+    }else{
+
+    }
+    document.getElementById(`wind${number}`).textContent = "Wind: " + dataFromApi.wind_speed() + " kph " + windDirectionCorrection(dataFromApi.wind_direction());
+    document.getElementById(`pressure${number}`).textContent = " Pressure:  " + dataFromApi.pressure() +" hPa.";
+}
+
+
+
+
+
+
 
 document.getElementById("cityForm").addEventListener("submit", function(event) {
     event.preventDefault();
@@ -157,10 +233,6 @@ document.getElementById("cityForm").addEventListener("submit", function(event) {
         console.error("An error occurred while fetching data:", error);
     });
 });
-
-
-
-
 
 
 function windDirectionCorrection(directionInDegrees){

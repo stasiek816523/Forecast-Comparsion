@@ -1,6 +1,16 @@
 async function visualcrossing(latitude,longitude){
     var forecast1 = await visualCrossingAPIbyXY(latitude,longitude);
-    document.getElementById("currentCity").textContent = shortenResolvedAddress(forecast1[10]);
+
+
+
+
+
+
+
+
+
+/*
+document.getElementById("currentCity").textContent = shortenResolvedAddress(forecast1[10]);
     document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
     document.getElementById("icon1").src = iconMatching(forecast1[9]);
     document.getElementById("icon1").display = 'block';
@@ -9,7 +19,7 @@ async function visualcrossing(latitude,longitude){
     document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+precipCorrection(forecast1[3]);
     document.getElementById("wind1").textContent = "Wind: " + forecast1[4] + " kph " + windDirectionCorrection(forecast1[5]);
     document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
-
+*/
 }
 
 function visualCrossingAPIbyXY(latitude, longitude){
@@ -26,7 +36,11 @@ function visualCrossingAPIbyXY(latitude, longitude){
     .then(response => response.json())
         .then(data => {
             var currentConditions = data.currentConditions;
-            return[currentConditions.temp, currentConditions.feelslike,currentConditions.precip,currentConditions.preciptype,currentConditions.windspeed,currentConditions.winddir,currentConditions.pressure,currentConditions.sunrise, currentConditions.sunset, currentConditions.icon, data.resolvedAddress];
+            const api1data = new weatherDataFromAPI();
+            api1data.temperature(currentConditions.temp).feelslike(currentConditions.feelslike).precip(currentConditions.precip).precipType(currentConditions.preciptype)
+            .wind_dir(currentConditions.winddir).wind_speed(currentConditions.windspeed).pressure(currentConditions.pressure).sunrise(currentConditions.sunrise).sunset(currentConditions.sunset)
+            .icon(currentConditions.icon).resolvedAddress(currentConditions.resolvedAddress);
+            return api1data;
         })
     .catch(err => {
         console.error(err);
@@ -49,6 +63,21 @@ function visualCrossingAPIbyCity(city){
         console.error(err);
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function iconMatching(JSONdescription){
     switch(JSONdescription) {
         case 'snow':

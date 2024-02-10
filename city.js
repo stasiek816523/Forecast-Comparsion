@@ -1,21 +1,3 @@
-window.onload = function() {
-    if (navigator.geolocation) {
-        watchId = navigator.geolocation.watchPosition(success, error);
-    }
-}
-function success(position) {
-    var latitude  = position.coords.latitude;
-    var longitude = position.coords.longitude;
-
-    navigator.geolocation.clearWatch(watchId);
-    document.getElementById("currentCity").textContent = shortenResolvedAddress(reverseOpenStreetMapNominatim(latitude, longitude));
-    visualcrossing(latitude,longitude);
-    openMeteo(latitude,longitude);
-}
-function error() {
-    return -1;
-}
-
 class weatherDataFromAPI{
     constructor() {
         this._temperature = null;
@@ -163,6 +145,24 @@ class weatherDataFromAPI{
     }
 }
 
+window.onload = function() {
+    if (navigator.geolocation) {
+        watchId = navigator.geolocation.watchPosition(success, error);
+    }
+}
+async function success(position) {
+    var latitude  = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    navigator.geolocation.clearWatch(watchId);
+    let adr = await reverseOpenStreetMapNominatim(latitude, longitude);
+    document.getElementById("currentCity").textContent = shortenResolvedAddress(adr);
+    visualcrossing(latitude,longitude);
+    openMeteo(latitude,longitude);
+}
+function error() {
+    return -1;
+}
 function setDataToTile(dataFromApi, number){
 
     document.getElementById(`tempTitle${number}`).textContent = dataFromApi.get_temperature() +"°";
@@ -179,7 +179,7 @@ function setDataToTile(dataFromApi, number){
     if(number ==1){
         document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.get_precip() +" mm "+precipCorrection(dataFromApi.get_precipType());
     }else if(number ==2){
-        document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.get_precip() +" mm "+openMeteoPrecip(dataFromApi.get_precip(),dataFromApi.get_rain(),dataFromApi.get_showers(),dataFromApi.snowfall());
+        document.getElementById(`precip${number}`).textContent = "Precip: " + dataFromApi.get_precip() +" mm "+openMeteoPrecip(dataFromApi.get_precip(),dataFromApi.get_rain(),dataFromApi.get_showers(),dataFromApi.get_snowfall());
     }else{
 
     }
@@ -189,43 +189,20 @@ function setDataToTile(dataFromApi, number){
 
 
 
-document.getElementById("cityForm").addEventListener("submit", function(event) {
+document.getElementById("cityForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
     var city = document.getElementById("city").value;
+    document.getElementById("currentCity").textContent = shortenResolvedAddress(forecast1[10]);
 
-    visualCrossingAPIbyCity(city)
-    .then(function(forecast1) {
-        document.getElementById("currentCity").textContent = shortenResolvedAddress(forecast1[10]);
-        document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
-        document.getElementById("icon1").src = iconMatching(forecast1[9]);
-        document.getElementById("icon1").style.display = 'block';
-        document.getElementById("temperature1").textContent = "Temperature: " + forecast1[0] +" C°";
-        document.getElementById("feelslike1").textContent = "Feels like: " + forecast1[1] +" C°";
-        document.getElementById("precip1").textContent = "Precip: " + forecast1[2] +" mm "+precipCorrection(forecast1[3]);
-        document.getElementById("wind1").textContent = "Wind: " + forecast1[4] + " kph " + windDirectionCorrection(forecast1[5]);
-        document.getElementById("pressure1").textContent = " Pressure:  " + forecast1[6] +" hPa.";
-    })
-    .catch(function(error) {
-        console.error("An error occurred while fetching data:", error);
-    });
+    const data1 = await visualCrossingAPIbyCity(city);
+    setDataToTile(data1, 1);
 
 
-    openMeteoByCity(city)
-    .then(function(forecast2) {
-        document.getElementById("tempTitle2").textContent = forecast2[0] +"°";
-        document.getElementById("icon2").src = iconMatchingOpenMeteo(forecast2[7], forecast2[6]);
-        document.getElementById("icon2").display = 'block';
-        document.getElementById("temperature2").textContent = "Temperature: " + forecast2[0] +" C°";
-        document.getElementById("feelslike2").textContent = "Feels like: " + forecast2[1] +" C°";
-        document.getElementById("precip2").textContent = "Precip: " + forecast2[2] +" mm "+openMeteoPrecip(forecast2[2],forecast2[8],forecast2[9],forecast2[10]);
-        document.getElementById("wind2").textContent = "Wind: " + forecast2[3] + " kph " + windDirectionCorrection(forecast2[4]);
-        document.getElementById("pressure2").textContent = " Pressure:  " + forecast2[5] +" hPa.";
+    const data2 = await openMeteoByCity(city);
+    setDataToTile(data2, 2);
 
-       })
-    .catch(function(error) {
-        console.error("An error occurred while fetching data:", error);
-    });
+
 });
 
 

@@ -1,13 +1,14 @@
 async function openStreetMapNominatim(city){
     try{
-        let apiUrl = "https://nominatim.openstreetmap.org/search?format=json&q=";
-        apiUrl += city + "&limit=1";
-
+        let apiUrl = "https://nominatim.openstreetmap.org/search.php?q=";
+        apiUrl+= city +"&format=json";
         const response = await fetch(apiUrl);
 
         const data = await response.json();
 
-        return data;
+        const latitude = data[0].lat;
+        const longitude = data[0].lon;
+        return [latitude, longitude];
     }catch(error){
         console.error(error);
     }
@@ -16,14 +17,13 @@ async function openStreetMapNominatim(city){
 async function reverseOpenStreetMapNominatim(latitude, longitude){
     try{
         let apiUrl = "https://nominatim.openstreetmap.org/reverse.php?lat="
-        apiUrl += latitude + "&lon=" + longitude + "&zoom=10&format=jsonv2";
+        apiUrl += latitude + "&lon=" + longitude + "&zoom=10&format=json";
 
         const response = await fetch(apiUrl);
 
         const data = await response.json();
 
         let displayName = data.display_name;
-        console.log(typeof displayName);
         return displayName;
     }catch(error){
         console.error(error);

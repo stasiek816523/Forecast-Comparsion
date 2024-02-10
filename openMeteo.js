@@ -21,8 +21,8 @@ async function openMeteoByXY(latitude, longitude){
         var currentConditions = data.current;
         const api1data = new weatherDataFromAPI();
         api1data.set_temperature(currentConditions.temperature_2m).set_feelslike(currentConditions.apparent_temperature).set_precip(currentConditions.precipitation)
-        .set_wind_dir(currentConditions.wind_direction_10m).set_wind_speed(currentConditions.wind_speed_10m).set_pressure(currentConditions.pressure_msl).set_isDay(currentConditions.is_day)
-        .set_weatherCode(currentConditions.weather_code).set_rain(currentConditions.rain).set_showers(currentConditions.showers).set_snowfall(currentConditions.snowfall);
+        .set_wind_direction(currentConditions.wind_direction_10m).set_wind_speed(currentConditions.wind_speed_10m).set_pressure(currentConditions.pressure_msl).set_isDay(currentConditions.is_day)
+        .set_weather_code(currentConditions.weather_code).set_rain(currentConditions.rain).set_showers(currentConditions.showers).set_snowfall(currentConditions.snowfall);
 
         return api1data;
     }catch(error){

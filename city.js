@@ -159,6 +159,7 @@ async function success(position) {
     document.getElementById("currentCity").textContent = shortenResolvedAddress(adr);
     visualcrossing(latitude,longitude);
     openMeteo(latitude,longitude);
+    tommorowApi(latitude, longitude);
 }
 function error() {
     return -1;
@@ -187,8 +188,6 @@ function setDataToTile(dataFromApi, number){
     document.getElementById(`pressure${number}`).textContent = " Pressure:  " + dataFromApi.get_pressure() +" hPa.";
 }
 
-
-
 document.getElementById("cityForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
@@ -199,7 +198,7 @@ document.getElementById("cityForm").addEventListener("submit", async function(ev
 
     visualcrossing(data[0],data[1]);
     openMeteo(data[0], data[1]);
-
+    tommorowApi(data[0], data[1]);
 });
 
 

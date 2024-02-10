@@ -164,8 +164,6 @@ class weatherDataFromAPI{
     }
 }
 
-
-
 function setDataToTile(dataFromApi, number){
     document.getElementById(`tempTitle${number}`).textContent = dataFromApi.temperature() +"°";
     if(number ==1){

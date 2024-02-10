@@ -1,14 +1,6 @@
 async function visualcrossing(latitude,longitude){
-    var forecast1 = await visualCrossingAPIbyXY(latitude,longitude);
-
-
-
-
-
-
-
-
-
+    let data = await visualCrossingAPIbyXY(latitude,longitude);
+    setDataToTile(data, 1);
 /*
 document.getElementById("currentCity").textContent = shortenResolvedAddress(forecast1[10]);
     document.getElementById("tempTitle1").textContent = forecast1[0] +"°";
@@ -57,7 +49,11 @@ function visualCrossingAPIbyCity(city){
     .then(response => response.json())
         .then(data => {
             var currentConditions = data.currentConditions;
-            return[currentConditions.temp, currentConditions.feelslike,currentConditions.precip,currentConditions.preciptype,currentConditions.windspeed,currentConditions.winddir,currentConditions.pressure,currentConditions.sunrise, currentConditions.sunset, currentConditions.icon, data.resolvedAddress];
+            const api1data = new weatherDataFromAPI();
+            api1data.temperature(currentConditions.temp).feelslike(currentConditions.feelslike).precip(currentConditions.precip).precipType(currentConditions.preciptype)
+            .wind_dir(currentConditions.winddir).wind_speed(currentConditions.windspeed).pressure(currentConditions.pressure).sunrise(currentConditions.sunrise).sunset(currentConditions.sunset)
+            .icon(currentConditions.icon).resolvedAddress(currentConditions.resolvedAddress);
+            return api1data;
         })
     .catch(err => {
         console.error(err);

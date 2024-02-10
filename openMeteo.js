@@ -1,28 +1,47 @@
 async function openMeteo(latitude,longitude){
-    /*
-    0 - temperature_2m
-    1 - apparent_temperature
-    2 - precipitation
-    3 - wind_speed_10m
-    4 - wind_direction_10m
-    5 - pressure_msl
-    6 - is_day
-    7 - weather_code
-    8 - rain
-    9 - showers
-    10 - snowfall
-    */
-    var forecast2 = await openMeteoByXY(latitude,longitude);
-    document.getElementById("tempTitle2").textContent = forecast2[0] +"°";
-    document.getElementById("icon2").src = iconMatchingOpenMeteo(forecast2[7], forecast2[6]);
-    document.getElementById("icon2").display = 'block';
-    document.getElementById("temperature2").textContent = "Temperature: " + forecast2[0] +" C°";
-    document.getElementById("feelslike2").textContent = "Feels like: " + forecast2[1] +" C°";
-    document.getElementById("precip2").textContent = "Precip: " + forecast2[2] +" mm "+openMeteoPrecip(forecast2[2],forecast2[8],forecast2[9],forecast2[10]);
-    document.getElementById("wind2").textContent = "Wind: " + forecast2[3] + " kph " + windDirectionCorrection(forecast2[4]);
-    document.getElementById("pressure2").textContent = " Pressure:  " + forecast2[5] +" hPa.";
-
+    let data = await openMeteoByXY(latitude,longitude);
+    setDataToTile(data, 2);
 }
+
+
+function openMeteoByCity(city){
+    var data = openStreetMapNominatim(city);
+    var xy = data.then(response => {
+        const result = response[0];
+        const lat = result.lat;
+        const lon = result.lon;
+        return [lat,lon];
+    }).catch(error => {
+        console.error('Error ', error);
+    });
+    return openMeteoByXY(xy[0],xy[1]);
+}
+function openMeteoByXY(latitude, longitude){
+    let apiUrl = "https://api.open-meteo.com/v1/dwd-icon?latitude="
+    apiUrl += latitude + "&longitude=";
+    apiUrl+= longitude + "&current=temperature_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&forecast_days=1";
+
+    return fetch(apiUrl, {
+        "method": "GET",
+        "headers": {}
+    })
+    .then(response => response.json())
+        .then(data => {
+            var currentConditions = data.current;
+
+            const api1data = new weatherDataFromAPI();
+            api1data.temperature(currentConditions.temperature_2m).feelslike(currentConditions.apparent_temperature).precip(currentConditions.precipitation)
+            .wind_dir(currentConditions.wind_direction_10m).wind_speed(currentConditions.wind_speed_10m).pressure(currentConditions.pressure_msl).isDay(currentConditions.is_day)
+            .weatherCode(currentConditions.weather_code).rain(currentConditions.rain).showers(currentConditions.showers).snowfall(currentConditions.snowfall);
+            return api1data;
+        })
+    .catch(err => {
+        console.error(err);
+    });
+}
+
+
+
 function openMeteoPrecip(precipitation, rain, shower, snowfall){
     if(precipitation == 0){
         return "";
@@ -38,7 +57,6 @@ function openMeteoPrecip(precipitation, rain, shower, snowfall){
         }
     }
 }
-
 function iconMatchingOpenMeteo(weatherCode, isDay){
     if(weatherCode < 20){
         if(isDay == 0){
@@ -83,34 +101,4 @@ function iconMatchingOpenMeteo(weatherCode, isDay){
     }else{
         return "weatherIcons/rain.png";
     }
-}
-function openMeteoByCity(city){
-    var data = openStreetMapNominatim(city);
-    var xy = data.then(response => {
-        const result = response[0];
-        const lat = result.lat;
-        const lon = result.lon;
-        return [lat,lon];
-    }).catch(error => {
-        console.error('Error ', error);
-    });
-    return openMeteoByXY(xy[0],xy[1]);
-}
-function openMeteoByXY(latitude, longitude){
-    let apiUrl = "https://api.open-meteo.com/v1/dwd-icon?latitude="
-    apiUrl += latitude + "&longitude=";
-    apiUrl+= longitude + "&current=temperature_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,pressure_msl,wind_speed_10m,wind_direction_10m&forecast_days=1";
-
-    return fetch(apiUrl, {
-        "method": "GET",
-        "headers": {}
-    })
-    .then(response => response.json())
-        .then(data => {
-            var currentConditions = data.current;
-            return[currentConditions.temperature_2m, currentConditions.apparent_temperature,currentConditions.precipitation,currentConditions.wind_speed_10m,currentConditions.wind_direction_10m,currentConditions.pressure_msl, currentConditions.is_day, currentConditions.weather_code, currentConditions.rain, currentConditions.showers, currentConditions.snowfall];
-        })
-    .catch(err => {
-        console.error(err);
-    });
 }

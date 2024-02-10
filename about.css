@@ -35,7 +35,7 @@ label.logo{
     float: left;
     margin-top: 2vh;
     margin-right: 0.5vw;
-    margin-left: 20vw;
+    margin-left: 38vw;
 }
 nav ul{
     float: right;
@@ -53,7 +53,7 @@ nav ul li a{
     border-radius: 10px;
 }
 .activeOnHover:hover{
-    background-color:  #1befd3 ;
+    background-color:  #88ffb5 ;
     transition: 0.3s;
 }
 label a{

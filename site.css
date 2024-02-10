@@ -194,6 +194,19 @@ label a{
     padding-right: 1vw;
     border-radius: 10px;
 }
+#aboutBody{
+    margin-top: 10vh;
+    max-width: 80vw;
+    margin-left: 10vw;
+    background-color: #88ffb5;
+    border-radius: 20px;
+    height: 60vh;
+    text-align: center;
+    padding-left: 10vw;
+    padding-right: 10vw;
+    padding-top: 10vh;
+}
+
 #scrollButton {
     display: none;
     position: fixed;
@@ -238,16 +251,4 @@ label a{
     padding-top: 10vh;
 }
 
-#aboutBody{
-    margin-top: 10vh;
-    max-width: 80vw;
-    margin-left: 10vw;
-    background-color: #88ffb5;
-    border-radius: 20px;
-    height: 60vh;
-    text-align: center;
-    padding-left: 10vw;
-    padding-right: 10vw;
-    padding-top: 10vh;
-}
 

@@ -258,6 +258,16 @@ label a{
     #titleImg{
         margin-left: 49vw;
     }
+    
+}
+
+@media screen and (max-width: 750px) {
+    label.logo {
+        display:none;
+    }
+    #titleImg{
+        margin-left: 49vw;
+    }
     #bottomTitle{
         display:none;
     }
@@ -267,5 +277,11 @@ label a{
     #bottomIcon{
         margin-left: 51vw;
     }
+    
 }
-  
+
+@media screen and (max-width: 580px) {
+    nav ul li{
+        display: none;
+    }
+}

@@ -261,8 +261,11 @@ label a{
     #bottomTitle{
         display:none;
     }
-    #bottomBar ul{
+    #bottomBar ul li .activeOnHover{
         display:none;
+    }
+    #bottomIcon{
+        margin-left: 51vw;
     }
 }
   

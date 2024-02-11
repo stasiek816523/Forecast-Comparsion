@@ -155,24 +155,17 @@ label a{
     padding: 10px;
 }
 .tempTitle{
-    position: absolute;
     z-index: 1;
     font-size: 5vh;
     font-weight: bold;
     color:black;
 }
-#tempTitle1{
-    left: 17vw; 
-    top: 48.5vh;
+.weatherIcon,
+.tempTitle {
+    display: inline-block; 
+    vertical-align: middle; 
 }
-#tempTitle2{
-    left: 50.5vw; 
-    top: 48.5vh; 
-}
-#tempTitle3{
-    left: 83.5vw;
-    top: 48.5vh; 
-}
+
 .weatherTable{
     overflow:hidden;
     bottom: 0;
@@ -270,6 +263,22 @@ label a{
 #mail{
     cursor: pointer;
 }
+#aboutBody{
+    margin-top: 10vh;
+    max-width: 80vw;
+    margin-left: 10vw;
+    margin-bottom: 18vh;
+    background-color: #88ffb5;
+    border-radius: 20px;
+    height: auto;
+    text-align: center;
+    padding-left: 10vw;
+    padding-right: 10vw;
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+    margin-bottom: 31.5vh;
+}
+
 #contactBody{
     margin-top: 10vh;
     max-width: 80vw;
@@ -277,14 +286,14 @@ label a{
     margin-bottom: 18vh;
     background-color: #88ffb5;
     border-radius: 20px;
-    height: 60vh;
+    height: auto;
     text-align: center;
     padding-left: 10vw;
     padding-right: 10vw;
     padding-top: 10vh;
+    padding-bottom: 10vh;
+    margin-bottom: 48.5vh;
 }
-
-
 @media screen and (max-width: 1150px) {
     label.logo {
         display:none;
@@ -328,18 +337,6 @@ label a{
         overflow: hidden;
     }
 
-    #tempTitle1{
-        top: 49vh; 
-        left: 48.5vw; 
-    }
-    #tempTitle2{
-        top: 90vh;
-        left: 48.5vw; 
-    }
-    #tempTitle3{
-        top: 131vh; 
-        left: 48.5vw; 
-    }
 }
 
 @media screen and (max-width: 590px) {
@@ -365,16 +362,4 @@ label a{
         border-radius: 50%;  
     }
 
-    #tempTitle1{
-        top: 60vh; 
-        left: 48.5vw; 
-    }
-    #tempTitle2{
-        top: 100vh;
-        left: 48.5vw; 
-    }
-    #tempTitle3{
-        top: 141vh; 
-        left: 48.5vw; 
-    }
 }

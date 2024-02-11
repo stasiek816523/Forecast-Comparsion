@@ -107,8 +107,9 @@ label a{
     border-radius: 10px;
 }
 #cityForm input[type="text"], #cityForm textarea{
-    width: 26vw;
+    width: 24vw;
     height: auto;
+    float: left;
     padding: 10px;
     text-align: center;
     border: none;
@@ -121,7 +122,7 @@ label a{
     background-color: transparent;
     border: none;
     margin-top: 1.3vh;
-    padding-right: 0.5vw;
+    padding-right: 3vw;
     cursor: pointer;
     float: right;
 }
@@ -155,7 +156,6 @@ label a{
 }
 .tempTitle{
     position: absolute;
-    top: 48.5vh; 
     z-index: 1;
     font-size: 5vh;
     font-weight: bold;
@@ -163,12 +163,15 @@ label a{
 }
 #tempTitle1{
     left: 17vw; 
+    top: 48.5vh;
 }
 #tempTitle2{
     left: 50.5vw; 
+    top: 48.5vh; 
 }
 #tempTitle3{
     left: 83.5vw;
+    top: 48.5vh; 
 }
 .weatherTable{
     overflow:hidden;
@@ -308,7 +311,35 @@ label a{
     #bottomIcon{
         margin-left: 51vw;
     }
-    
+    .container {
+        display: grid;
+        grid-template-rows: repeat(1, 1fr);
+        grid-template-columns: 1fr;
+        overflow: hidden;
+        gap: 4vh;
+    }
+    .tile {
+        border-radius: 20px;
+        height: auto;
+        margin-left: 7vw;
+        width: 80vw;
+        background-color: #ffcc4d ;
+        color: black;
+        overflow: hidden;
+    }
+
+    #tempTitle1{
+        top: 49vh; 
+        left: 48.5vw; 
+    }
+    #tempTitle2{
+        top: 90vh;
+        left: 48.5vw; 
+    }
+    #tempTitle3{
+        top: 131vh; 
+        left: 48.5vw; 
+    }
 }
 
 @media screen and (max-width: 590px) {
@@ -333,6 +364,17 @@ label a{
         transition: 0.3s;
         border-radius: 50%;  
     }
-    
-    
+
+    #tempTitle1{
+        top: 60vh; 
+        left: 48.5vw; 
+    }
+    #tempTitle2{
+        top: 100vh;
+        left: 48.5vw; 
+    }
+    #tempTitle3{
+        top: 141vh; 
+        left: 48.5vw; 
+    }
 }

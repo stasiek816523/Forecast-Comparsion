@@ -61,6 +61,32 @@ nav ul li a{
 label a{
     color:beige;
 }
+
+#dropDownMenu {
+    display: none;
+    position: absolute;
+    top: 6vh;
+    right: 3vw;
+    width: 20vw;
+    height: 20vw;
+    background-color:  #ffcc4d;
+    border-radius: 10px;
+    z-index: 9999; 
+}
+#dropDownMenu ul{
+    text-align: center;
+}
+#dropDownMenu ul li{
+    line-height: 3.5vh;
+}
+#dropDownMenu ul li a{
+    color: beige;
+    text-transform: uppercase;
+    border-radius: 7px;
+}
+#dropDownMenu ul li a:hover{
+    background-color: #ffe8b6;
+}
 #currentCity{
     color: black;
     text-align: center;
@@ -282,18 +308,29 @@ label a{
     
 }
 
-@media screen and (max-width: 580px) {
-    nav ul li{
-        display: none;
-    }
+@media screen and (max-width: 590px) {
+
     #navShortcut{
         display: block;
         float: right;
-        margin-top: 1vh;
-        margin-right: 1vw;
+        margin-top: 2.3vh;
+        margin-right: 3vw;
     }
     #navShortcut img{
         height: 3vh;
-        width: 2vw;
+        width: auto;
     }
+
+
+    #normalMenu{
+        display: none;
+
+    }
+    #menuButton:hover{
+        background-color: #88ffb5;
+        transition: 0.3s;
+        border-radius: 50%;  
+    }
+    
+    
 }

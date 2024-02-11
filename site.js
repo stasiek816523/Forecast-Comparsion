@@ -28,3 +28,20 @@ function copyText(message) {
       alert("Copy Error");
     });
 }
+
+function dropDownMenu(){
+    document.getElementById("dropDownMenu").style.display = "block";
+}
+function hideDropDownMenu(){
+    document.getElementById("dropDownMenu").style.display = "none";
+
+}
+function clickDropDown(){
+    let display = document.getElementById("dropDownMenu").style.display;
+
+    if(display == "none"){
+        document.getElementById("dropDownMenu").style.display = "block";
+    }else{
+        document.getElementById("dropDownMenu").style.display = "none";
+    }
+}

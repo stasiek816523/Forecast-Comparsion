@@ -10,7 +10,9 @@
 body{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-
+#navShortcut{
+    display: none;
+}
 nav{
     height: 8vh;
 }
@@ -283,5 +285,15 @@ label a{
 @media screen and (max-width: 580px) {
     nav ul li{
         display: none;
+    }
+    #navShortcut{
+        display: block;
+        float: right;
+        margin-top: 1vh;
+        margin-right: 1vw;
+    }
+    #navShortcut img{
+        height: 3vh;
+        width: 2vw;
     }
 }

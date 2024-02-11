@@ -162,7 +162,7 @@ label a{
     margin-top: 0.2vh;
 }
 #bottomBar{
-    position: absolute;
+    position: sticky;
     bottom: 0;
     width: 100%;
 }

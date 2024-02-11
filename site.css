@@ -102,7 +102,7 @@ label a{
 }
 #cityForm{
     border: 1px solid #ccc;
-    width: 30vw;
+    width: 40vw;
     margin: 0vh auto;
     border-radius: 10px;
 }
@@ -125,6 +125,8 @@ label a{
     padding-right: 3vw;
     cursor: pointer;
     float: right;
+    margin-right: 3vw;
+    overflow: hidden;
 }
 .container {
     display: grid;

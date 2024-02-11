@@ -34,14 +34,15 @@ function dropDownMenu(){
 }
 function hideDropDownMenu(){
     document.getElementById("dropDownMenu").style.display = "none";
-
 }
-function clickDropDown(){
-    let display = document.getElementById("dropDownMenu").style.display;
 
-    if(display == "none"){
-        document.getElementById("dropDownMenu").style.display = "block";
-    }else{
-        document.getElementById("dropDownMenu").style.display = "none";
+function clickDropDown(){
+    let dropDownMenu = document.getElementById("dropDownMenu");
+    let computedStyle = window.getComputedStyle(dropDownMenu);
+
+    if (computedStyle.getPropertyValue("display") === "none") {
+        dropDownMenu.style.display = "block";
+    } else {
+        dropDownMenu.style.display = "none";
     }
 }

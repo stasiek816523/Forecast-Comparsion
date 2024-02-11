@@ -67,8 +67,10 @@ label a{
     position: absolute;
     top: 6vh;
     right: 3vw;
-    width: 20vw;
-    height: 20vw;
+    width: auto;
+    height: auto;
+    padding-left: 1vw;
+    padding-right: 1vw;
     background-color:  #ffcc4d;
     border-radius: 10px;
     z-index: 9999; 
@@ -194,12 +196,7 @@ label a{
     bottom: 0;
     width: 100%;
 }
-#bottomTitle{
-    margin-left: 0.5vw;
-    margin-top: 0.4vh;
-    margin-bottom: 0.5vh;
-    float:left;
-}
+
 #bottomIcon{
     margin-left: 45vw; 
     float: left;
@@ -221,6 +218,12 @@ label a{
     padding-left: 1vw;
     padding-right: 1vw;
     border-radius: 10px;
+}
+#bottomTitle{
+    margin-left: 0.5vw;
+    margin-top: 0.4vh;
+    margin-bottom: 0.5vh;
+    float:left;
 }
 #aboutBody{
     margin-top: 10vh;
@@ -324,7 +327,6 @@ label a{
 
     #normalMenu{
         display: none;
-
     }
     #menuButton:hover{
         background-color: #88ffb5;

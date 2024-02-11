@@ -251,3 +251,18 @@ label a{
 }
 
 
+@media screen and (max-width: 1150px) {
+    label.logo {
+        display:none;
+    }
+    #titleImg{
+        margin-left: 49vw;
+    }
+    #bottomTitlle{
+        display:none;
+    }
+    #bottomBar ul{
+        display:none;
+    }
+}
+  

@@ -1,3 +1,5 @@
+#Hosted on: https://stasiek816523.github.io/Forecast-Comparsion
+
 This site is written in HTML, CSS ( + CSS media queries ), JavaScript, data from APIs are sent via JSON. Thanks to the CSS media queries, this site is responsive. It uses some weather forecasts APIs eg. Visual Crossing API (REST), Open Meteo API, Tommorow API
      and some auxiliary APIs eg. TimeZoneDB API and OpenStreetMap API.<br><br>
     Forecasts are real-time. Weather icons are being set based on weather data given by APIs.<br><br>
